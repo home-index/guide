@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#020617" />
+  <title>ATITHI DEVO BHAVAH — Personal Trusted Travel Guide</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;600;700;800&family=Kalam:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="fx" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="logo" href="#home" aria-label="ATITHI DEVO BHAVAH Home">
+          <div class="mark" aria-hidden="true">
+            <div class="markCore"></div>
+            <div class="markHalo"></div>
+          </div>
+          <div class="logoText">
+            <div class="brandSwap" id="brandSwap">
+              <span class="en">ATITHI DEVO BHAVAH</span>
+              <span class="hi">अतिथि देवो भवः</span>
+            </div>
+            <div class="logoSub">
+              <span class="logoBadge">Delhi NCR • Sonipat</span>
+              <span class="logoSeparator">•</span>
+              <span class="logoRole">Personal Travel Guide</span>
+            </div>
+          </div>
+        </a>
+
+        <nav>
+          <button class="menuBtn" id="menuBtn" aria-label="Open menu">Menu</button>
+          <div class="navlinks" id="navlinks">
+            <a href="#home" data-t>HOME</a>
+            <a href="#about" data-t>ABOUT</a>
+            <a href="#whyme" data-t>WHY ME</a>
+            <a href="#services" data-t>SERVICES</a>
+            <a href="#safety" data-t>SAFETY</a>
+            <a href="#verification" data-t>VERIFICATION</a>
+            <a href="#gallery" data-t>GALLERY</a>
+            <a href="#stories" data-t>STORIES</a>
+            <a href="#booking" data-t>BOOKING</a>
+            <a href="#contact" data-t>CONTACT</a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Live Info Strip (collapsible) -->
+      <div class="stripWrap expanded" id="stripWrap">
+        <div class="strip">
+          <div class="stripGrid">
+            <!-- existing 4 cards keep as-is -->
+            <!-- Rectangle: user ip + location + weather -->
+            <div class="rectCard">
+              <div class="rectInner">
+                <div class="miniTitle" data-t>YOUR LIVE INFO (by IP)</div>
+                <div class="bigLine">
+                  <span class="chip"><span class="dot"></span><span data-t>IP</span>: <b id="ip">—</b></span>
+                  <span class="chip"><span data-t>Country</span>: <b id="country">—</b></span>
+                  <span class="chip"><span data-t>City</span>: <b id="city">—</b></span>
+                  <span class="chip"><span data-t>Weather</span>: <b id="uWeatherC">—°C</b> / <b id="uWeatherF">—°F</b></span>
+                </div>
+                <div class="miniTitle" id="geoNote" style="margin-top:6px">—</div>
+              </div>
+            </div>
+
+            <!-- Diamond: user time -->
+            <div class="diamondWrap">
+              <div class="diamond" aria-label="User real time">
+                <div class="diamondContent">
+                  <div class="timeTitle" data-t>Your Real Time</div>
+                  <div class="timeValue" id="userTime">—</div>
+                  <div class="timeSub" id="userTz">—</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Diamond: Delhi time + difference -->
+            <div class="diamondWrap">
+              <div class="diamond" aria-label="Delhi real time">
+                <div class="diamondContent">
+                  <div class="timeTitle" data-t>Delhi Real Time</div>
+                  <div class="timeValue" id="delhiTime">—</div>
+                  <div class="timeSub" id="timeDiff">Δ —</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rectangle: Delhi & Sonipat weather -->
+            <div class="rectCard">
+              <div class="rectInner">
+                <div class="miniTitle" data-t>DELHI & SONIPAT WEATHER</div>
+                <div class="bigLine">
+                  <span class="chip"><span data-t>Delhi</span>: <b id="delhiC">—°C</b> / <b id="delhiF">—°F</b></span>
+                  <span class="chip"><span data-t>Sonipat</span>: <b id="sonipatC">—°C</b> / <b id="sonipatF">—°F</b></span>
+                </div>
+                <div class="miniTitle" data-t style="margin-top:6px">Updated automatically</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toggle line strip -->
+        <button class="stripToggle" id="stripToggle" aria-label="Toggle live time & weather">
+          <span class="stripLine"></span>
+          <span class="stripArrow"></span>
+          <span class="stripLine"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="heroGrid">
+        <div class="heroCard reveal">
+          <div class="heroInner">
+            <div class="kicker">
+              <i></i>
+              <span data-t>Independent Personal Travel Guide • Delhi NCR • Sonipat • Nearby Cities</span>
+            </div>
+            <h1 data-t>
+              Land in India feeling safe, understood, and genuinely looked after.
+            </h1>
+            <p class="sub" data-t>
+              Get a personal local guide in Delhi NCR & Sonipat who picks you up, helps you avoid scams, plans your days, and stays by your side like a trusted friend—not a pushy agent.
+            </p>
+            <div class="ctaRow">
+              <a class="btn btnPrimary" href="#booking" data-t>Plan Your Trip Now</a>
+              <a class="btn btnGhost" href="#services" data-t>See What’s Included</a>
+              <span class="chip" title="Fast response">
+                <span class="dot"></span><span data-t>WhatsApp replies usually within 15–30 minutes</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="heroSide">
+          <div class="sideCard reveal">
+            <div class="sideInner">
+              <p class="sideTitle" data-t>How your trip feels</p>
+              <p class="sideText" data-t>
+                No confusion at airports, no random drivers, no pressure shopping. Just a calm local with clear plans, honest advice, and plenty of time for photos and chai breaks.
+              </p>
+              <div class="pillGrid">
+                <div class="pill" data-t>Airport pickup & drop</div>
+                <div class="pill" data-t>Custom itinerary</div>
+                <div class="pill" data-t>Safe local food spots</div>
+                <div class="pill" data-t>Photo‑friendly locations</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sideCard reveal">
+            <div class="sideInner">
+              <p class="sideTitle" data-t>Perfect for</p>
+              <p class="sideText" data-t>
+                Solo travelers, women travelers, couples, families, and creators who want real India experiences with a protective “big brother” energy around.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>ABOUT</h2>
+          <p class="hint" data-t>
+            “Atithi Devo Bhavah” means the guest is like God—here it’s a daily practice: respect, safety, transparency, and genuine care in every plan.
+          <p>In Bharat(India), We believe "ATITHI DEVO BHAVAH - the Guest is Truly Divine. This is not just a saying for me; it is foundation of everything i do.
+          ATITHI DEVO BHAVAH - Personal Travel Guide was created to offer travelers a <b>safe, honest, comfortable, and human travel experience</b>, especially in <b>Delhi NCR, Sonipat and nearby regions</b>.</p> 
+          <p>I am not a tour company driven by commissions or hidden charges - I am your <b>local guide, trusted companion, & reliable support system</b> throughout your journey.
+          I Understand that traveling can be overwhelming - unfamiliar places, confusing prices, safety concerns, & fear of scams. That's why my approach is <b>Transparent, Budget-friendly, and Guest-first</b>.</p>
+          <p>I clearly explain costs, compare options, and help you choose what suits <b><i>your comfort, budget, and purpose</i></b> - without pressuring you to pay upfront.</p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Warm hospitality that feels like family</h3>
+          <p class="cardText" data-t>
+            From the first WhatsApp message to the final drop, you get clear communication, patience, and a friendly presence—you never feel left alone or rushed.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Local knowledge, not tourist traps</h3>
+          <p class="cardText" data-t>
+            Get timings, routes, and real recommendations for temples, markets, cafés, and viewpoints that locals actually love, not just what’s printed on a brochure.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Professional, punctual, and clear</h3>
+          <p class="cardText" data-t>
+            Clean itineraries, shared plans in advance, realistic timings, and on‑time pickups—from early morning aarti to late‑evening airport runs.
+          </p>
+        </div>
+      </div>
+
+      <!-- Guide Mini-Profile -->
+      <div class="card reveal" style="margin-top:16px; display:flex; gap:14px; align-items:flex-start;">
+        <div class="guideAvatar">
+          <div class="guidePhoto"></div>
+          <div class="guideBadge" data-t>Personal Local Guide</div>
+        </div>
+        <div class="guideInfo">
+          <h3 class="cardTitle" data-t>Your guide at a glance</h3>
+          <p class="cardText" data-t>
+            Whether you're a <b>solo traveler, family, couple, senior citizen, student, or foreign guest,</b> I guide you like a <b>friend, brother, or family member -</b> not just a service provider.
+          </p>
+          <div class="guideMeta">
+            <span data-t><b>Name:</b> <strong>PARDEEP SINGH</strong></span>
+            <span data-t><b>Based in:</b> Sonipat & Delhi NCR</span>
+            <span data-t><b>Languages:</b> Hindi, English</span>
+            <span data-t><b>Years guiding:</b> 4+ years</span>
+          </div>
+          <p class="cardText" style="margin-top:8px;" data-t>
+            “My goal is simple: you should go back home with beautiful memories, safe experiences, and stories you genuinely feel like sharing with your family.”<br>
+            <strong>Come as a guest. Travel like family. Leave with memories.</strong><br> That is the spirit of <b>ATITHI DEVO BHAVAH.</b>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY ME -->
+    <section id="whyme" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>WHY ME</h2>
+          <p class="hint" data-t>
+            Think beyond “guide”. This is guide + friend + protective brother + local family support in one person.
+          </p>
+          <p>
+            <strong>Because Your Journey Deserve Trust, Not Just a Guide.</strong><br>
+            Traveling is not only about visiting places - it's about <b>feeling safe, respected, and confident</b> in an unfamiliar environment. Many travelers face overcharging, rushed itineraries, fake reviews, and 
+            hidden conditions. I choose a different path. I work as a <b>Personal Travel Guide,</b> not a tour seller. My responsibility is <b>towards you,</b> not commissions from hotels, shops, or agents.
+          </p>
+          <p>
+            <strong>My Simple Promise</strong><br>
+            I won't promise perfection. I promise <b>honesty, respect, transparency, and genuine care.</b><br>
+            If you choose me, you're not choosing a service - you're choosing <b>peace of mind.</b>
+          </p>
+          <p><strong>That is WHY ME.</strong></p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Safety-first, especially for solo & women travelers</h3>
+          <p class="cardText" data-t>
+            I stay with you from pickup to drop, choose well‑lit routes, avoid unnecessary crowds at odd hours, and help you say “no” politely when something feels off.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Realistic planning, no rush</h3>
+          <p class="cardText" data-t>
+            Instead of trying to “do everything in one day”, we focus on 2–4 key experiences, good food, and enough rest so you actually enjoy the trip.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Transparent money handling</h3>
+          <p class="cardText" data-t>
+            You see ticket prices at counters, pay restaurants directly, and get clear guidance while bargaining in markets—no hidden commissions or surprise add‑ons.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Local Knowledge, Real Experience</h3>
+          <p class="cardText" data-t>
+            I don't guide from brochures or Google lists. I guide  from <b>real local experience -</b> understanding crowd patterns, safe timings, cultural sensitivities, genuine food spots, & places worth your time (& those that aren't).
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>No Scams, No Drama, No Pressure</h3>
+          <p class="cardText" data-t>
+            My role is to <b>protect you from tourist traps,</b> unnecessary expenses, and uncomfortable situations. If something isn't worth it, I'll tell you honestly - even if it means less business for me.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Personal, Not Commercial</h3>
+          <p class="cardText" data-t>
+            I don't handle large tourist groups or fixed packages. Every traveler is different - budget, comfort level, time, and purpose vary. I listen first, understand your needs, and then guide you accordingly. 
+            You travel at <b>your pace,</b> not mine.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Transparent & Honest Guidance</h3>
+          <p class="cardText" data-t>
+            > No forced bookings<br>
+            > No hidden charges<br>
+            > No advance pressure<br>
+            > Clear cost explanations<br>
+            > Honest comparisons between options<br>
+            You always know <b>where your money goes and why.</b>
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>More Than a Guide</h3>
+          <p class="cardText" data-t>To many Travelers, I become:<br>
+            > A <i>local friend</i> when you feel lost<br>
+            > A <i>brother</i> when you need support<br>
+            > A <i>family member</i> when you need care<br>
+            > A <i>guide</i> when you need direction.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Who I am Best For</h3>
+          <p class="cardText" data-t>
+            > Solo travelers seeking confidence<br>
+            > Families who value safety and comfort<br>
+            > First-time visitors to Delhi NCR<br>
+            > Guests who want honesty over luxury hype<br>
+            > Travelers who believe trust matters more than discounts.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>SERVICES</h2>
+          <p class="hint" data-t>
+            <strong>Personal Guidance. Honest Support. Safe Travel.</strong> Mix and match—build a relaxed one‑day plan or a multi‑day journey across Delhi NCR and nearby cities.
+          </p>
+          <p>
+            At <b>ATITHI DEVO BHAVAH,</b> services are designed around <b>real traveler needs,</b> not pre-made tour packages. Every service is flexible, transparent, and focused on your comfort, safety, and peace of mind.
+          </p>
+          <p>
+            <strong>My Service Promise</strong><br>
+            ** I don't sell tours. I provide <b>guidance, protection, clarity, and care.</b> With <b>ATITHI DEVO BHAVAH</b>, you travel <b>confidently, comfortably, and respectfully - </b>just the way a guest should.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>City & heritage tours</h3>
+          <p class="cardText" data-t>
+            Old Delhi lanes, forts, temples, markets, museums, modern cafés, and sunset points—planned with comfort breaks, photography time, and safe transport.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Airport & station assistance</h3>
+          <p class="cardText" data-t>
+            Smooth pickup/drop, luggage help, check‑in support, SIM card and essentials setup, and a calm start so you don’t feel lost in the crowd.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Custom itineraries</h3>
+          <p class="cardText" data-t>
+            Share your dates, pace, and interests. You get a simple day‑by‑day plan with estimated timings, realistic distances, and suggested backup options.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Personal Travel Guidance</h3>
+          <p class="cardText" data-t>
+            1-to-1 guidance based on <b>your travel purpose, budget, time, and comfort level.</b> No fixed routs, no forced plans - only what truly suits you.<br>
+            > Customized day plans<br>
+            > Flexible itineraries<br>
+            > Local insights beyond Google<br>
+            > Travel at your own pace.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Safety-First Travel Support</h3>
+          <p class="cardText" data-t>
+            Your safety comes before sightseeing.<br>
+            > Verified routes & locations<br>
+            > Guidance on safe timings and areas<br>
+            > Support for solo and first-time travelers<br>
+            > Assistance during unexpected situations.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Transparent Budget Planning</h3>
+          <p class="cardText" data-t>
+            Know the cost <b>before you spend,</b> not after.<br>
+            > Honest budget breakdowns<br>
+            > Comparison of transport, stay and activity options<br>
+            > No hidden charges<br>
+            > No commission-driven suggestions<br>
+            You decide -- i only guide.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Local Transport Guidance</h3>
+          <p class="cardText" data-t>
+            Help choosing the <b>right transport</b> based on safety, budget, and convenience.<br>
+            > Metro, cab, auto, and local routes<br>
+            > Cost-effective travel planning<br>
+            > Safe travel timings<br>
+            > Scam-free guidance.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Stay & Accommodation Assistance</h3>
+          <p class="cardText" data-t>
+            Guidance for <b>safe, clean, and budget-appropriate stays.</b>.<br>
+            > Hotels, guest house & homestay suggestions<br>
+            > Location-based safety advice<br>
+            > Budget vs comfort comparison<br>
+            > No forced bookings.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Food & Local Experience Guidance</h3>
+          <p class="cardText" data-t>
+            Experience real flavors - safely and hygienically.<br>
+            > Authentic local food spots<br>
+            > Street food safety guidance<br>
+            > Family-friendly & hygienic options<br>
+            > Cultural food experiences.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Sightseeing & Cultural Exploration</h3>
+          <p class="cardText" data-t>
+            Explore more than monuments.<br>
+            > Historical, spiritual & cultural places<br>
+            > Crowd-free timing suggestions<br>
+            > Respectful cultural guidance<br>
+            > Photo & experience friendly routes.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Verification & Trust Support</h3>
+          <p class="cardText" data-t>
+            For mutual safety and transparency.<br>
+            > Guest verification guidance<br>
+            > Safe communication practices<br>
+            > Scam-prevention support<br>
+            > Clear service boundaries.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Ideal For</h3>
+          <p class="cardText" data-t>
+            > Solo travelers.<br>
+            > Families & senior citizens<br>
+            > First-time Delhi NCR visitors<br>
+            > Budget-conscious travelers<br>
+            > <strong><i>Guests who value honesty & safety</i></strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAFETY -->
+    <section id="safety" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>SAFETY</h2>
+          <p class="hint" data-t>
+            <strong>Because Your Peace of Mind Comes First</strong>. Comfort and safety are built into every route—especially for first‑time visitors and families with kids.
+          </p>
+          <p>
+            Safety is not an optional feature - it is the <b>foundation</b> of every journey guided under <strong>ATITHI DEVO BHAVAH.</strong> Traveling to a new place should feel exciting, not stressful. 
+            My role is to ensure you feel <b>secure, informed, & supported</b> at every step.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Safety rules we follow together</h3>
+          <p class="cardText" data-t>
+            Clear meeting points, safer timings, and a simple “stay together” rule in crowded areas so you never have to manage chaos alone.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Solo & women traveler care</h3>
+          <p class="cardText" data-t>
+            Day plans avoid unnecessary late‑night areas, you always know where we are going next, and you can share my live location with your family if you want.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Emergency readiness</h3>
+          <p class="cardText" data-t>
+            Local emergency numbers, backup transport options, hospital locations near your hotel, and a calm protocol if anything unexpected happens on the road.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Safety Before Sightseeing</h3>
+          <p class="cardText" data-t>
+            > No place, plan or experience is more important than your well-being.<br>
+            > Routes, timing, locations, and activities are always suggested with <b>real safety considerations,</b> not just popularity.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Verified & Trusted Guidance</h3>
+          <p class="cardText" data-t>
+            > Guidance based on <b>local ground knowledge.</b><br>
+            > Recommendations only for <b>reliable transport and service options</b><br>
+            > Avoidance of known scam zones and unsafe timing<br>
+            > Honest advice on where not to go, if needed<br>
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Support For Solo & First-Time Travelers</h3>
+          <p class="cardText" data-t>
+            <b>Special attention for:</b><br>
+            > Solo travelers<br>
+            > Women travelers<br>
+            > Senior citizens<br>
+            > First-time visitors to Delhi NCR & nearby regions.<br>
+            <strong>You're never left confused or unsupported.</strong>
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Smart Location & Timing Advice</h3>
+          <p class="cardText" data-t>
+            Safety often depends on <i>when</i> and <i>how</i>, not just <i>where</i>.<br>
+            > Crowd-aware sightseeing plans<br>
+            > Safe travel hours guidance<br>
+            > Area-specific advice<br>
+            > Clear do's and don'ts for each location.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Availability During Your Journey</h3>
+          <p class="cardText" data-t>
+            <strong>You are not just guided and forgotten</strong>.<br>
+            > Active communication during travel hours<br>
+            > Help in case of confusion, delays, or discomfort<br>
+            > Calm guidance during unexpected situations
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Transparent & Ethical Practices</h3>
+          <p class="cardText" data-t>
+            Safety also means <b>financial and emotional security</b>.<br>
+            > No advance payment pressure<br>
+            > No hidden conditions<br>
+            > Clear service boundaries<br>
+            > Respect for privacy & personal space.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Awareness Over Fear</h3>
+          <p class="cardText" data-t>
+            I don't create fear - I create <b>awareness.</b><br>
+            <b>You are informed about:</b>
+            > Common tourist scams<br>
+            > Overcharging tactics<br>
+            > Unsafe shortcuts or offers<br>
+            > How to say no confidently.
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Mutual Respect & Trust</h3>
+          <p class="cardText" data-t>
+            <b>Safety works both ways.</b><br>
+            > Respectful behavior expected from all guests<br>
+            > Clear communication standards<br>
+            > Verification support for both sides<br>
+            > Zero tolerance for misuse or discomfort.
+          </p>
+        </div>
+      </div>
+      <p>
+        <strong>My Safety Promise</strong><br>
+        I cannot control everything - but I can <b>guide responsibly, respond honesty, and stand by you when it matters.</b><br>
+        With <strong>ATITHI DEVO BHAVAH</strong>, you are not just traveling through places - you are traveling with <b>care, caution, and confidence.</b>
+      </p>
+    </section>
+
+    <!-- VERIFICATION -->
+    <section id="verification" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>VERIFICATION</h2>
+          <p class="hint" data-t>
+            Your safety, trust, and peace of mind is my top priority.
+          </p>
+          <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; font-size:11px;">
+            <span class="chip" style="padding:4px 8px;" data-t>* 100% Manually Verified</span>
+            <span class="chip" style="padding:4px 8px;" data-t>* Safe</span>
+            <span class="chip" style="padding:4px 8px;" data-t>* Authentic</span>
+            <span class="chip" style="padding:4px 8px;" data-t>* Scam-Free Experience</span>
+          </div>
+          <p>
+            Every tourist who connects with <b>"ATITHI DEVO BHAVAH" - Personal Travel Guide </b>is <b>verified manually step-by-step</b> to ensure authenticity, transparency, and 
+            secure travel interactions in Delhi NCR & Sonipat and nearby regions. There are <b>no bots, no auto-approval, no fake profiles - only real, responsible human</b> on both sides. 
+          </p>
+          <p>
+            <strong>Why Verification Matters</strong><br>
+            Travel should feel <b>safe, respectful, and worry-free.</b> Manual verification helps us:<br>
+            >> Prevent fraud, fake identities, and impersonation,<br>
+            >> Ensure genuine travelers and responsible communication,<br>
+            >> Maintain a secure environment for all guests,<br>
+            >> Build mutual trust between guide and tourist.
+          </p>
+          <p>
+            <strong>My Step-By-Step Verification Process</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Step 1 - Identity Confirmation</h3>
+          <p class="cardText" data-t>
+            <strong>Government ID + Passport + Basic Profile Validation</strong><br>
+            > Tourist submit a valid Government ID + Passport (masked details allowed)<br>
+            > Full Name Verification<br>
+            > Age Verification<br>
+            > Country & City cross-check
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Step 2 - Contact & authenticity Check</h3>
+          <p class="cardText" data-t>
+            <strong>I personally verify communication channels</strong><br>
+            > Verified phone number / WhatsApp / Instagram etc.<br>
+            > Verified email<br>
+            > Quick authenticity confirmation
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Step 3 - Travel Intention Verification</h3>
+          <p class="cardText" data-t>
+            <strong>I ensure every request is genuine and purposeful</strong><br>
+            > Short reason for travel<br>
+            > Duration of visit<br>
+            > Basic trip/travel expectations
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Step 4 - Final Manual Approval</h3>
+          <p class="cardText" data-t>
+            <strong>I review everything manually</strong><br>
+            > Human verification - no AI auto approvals<br>
+            > Safety flags check<br>
+            > Approval + Verified Badge issued
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Your Privacy is Protected</h3>
+          <p class="cardText" data-t>
+            <strong>I respect your confidentiality.</strong><br>
+            > No personal data is shared publicly<br>
+            > No financial data stored<br>
+            > Only essential verification information is used<br>
+            > Full compliance with privacy standards
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Trust & Safety Commitment</h3>
+          <p class="cardText" data-t>
+            <strong>Every Verified User receives:</strong><br>
+            * Verified Tourist Badge<br>
+            * Priority support<br>
+            * Safer communication<br>
+            * Zero-scam assurance
+          </p>
+        </div>
+      </div>
+      <div class="verifyCTA reveal">
+      <div class="verifyCTAText">
+        <p class="verifyTitle" data-t>Ready to book safely!</p>
+        <p class="verifySub" data-t>Proceed to booking and send your details on WhatsApp or Email.</p>
+      </div>
+      <a href="#booking" class="btn btnPrimary" data-t>Proceed to Booking</a>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>GALLERY</h2>
+          <p class="hint" data-t>Replace these photos with your real tours, guests (with consent), and favorite spots.</p>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <div class="shot reveal" style="grid-column: span 5;">
+          <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1400&q=80" alt="India heritage street" />
+          <div class="cap" data-t>Old city lanes • Evening lights • Slow walking tour</div>
+        </div>
+        <div class="shot reveal" style="grid-column: span 4;">
+          <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1400&q=80" alt="Temple architecture" />
+          <div class="cap" data-t>Temple visits • Ritual explanation • Peaceful moments</div>
+        </div>
+        <div class="shot reveal" style="grid-column: span 3;">
+          <img src="https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1400&q=80" alt="Monument architecture" />
+          <div class="cap" data-t>Iconic monuments • Best time slots • Photo guidance</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORIES -->
+    <section id="stories" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>STORIES</h2>
+          <p class="hint" data-t>
+            Real words from guests who actually walked these streets with me—solo travelers, couples, families, and creators.
+          </p>
+        </div>
+        <div class="storiesHeadRight">
+          <span class="storiesBadge" data-t>Verified Tourists</span>
+          <a href="verified-tourists.html" class="storiesLink" data-t>See All</a>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <blockquote class="quote reveal">
+          <div class="quoteTop">
+            <span class="touristName" data-t>Emma • Solo Traveler</span>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p data-t>
+            “I landed in Delhi at midnight and felt nervous, but the moment I saw him waiting with my name board, everything felt calm. 
+            The entire day was safe, unhurried, and full of small thoughtful gestures.”
+          </p>
+          <span class="touristMeta" data-t>From UK • Old Delhi + cultural walk • 1‑day plan</span>
+        </blockquote>
+
+        <blockquote class="quote reveal">
+          <div class="quoteTop">
+            <span class="touristName" data-t>Ahmed & Family</span>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p data-t>
+            “We were traveling with two kids and elderly parents. He planned everything with lifts, clean washrooms, food breaks, and prayer time in mind. 
+            No rush, no pressure to shop—just a very respectful, family‑friendly day.”
+          </p>
+          <span class="touristMeta" data-t>From Middle East • Delhi highlights • Family trip</span>
+        </blockquote>
+
+        <blockquote class="quote reveal">
+          <div class="quoteTop">
+            <span class="touristName" data-t>Sofia & Mark</span>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p data-t>
+            “We told him we wanted photos, chai, and romantic spots more than ticking monuments. He adjusted everything on the go. 
+            By the end, it felt like exploring the city with a local friend, not a random guide.”
+          </p>
+          <span class="touristMeta" data-t>From Europe • Evening & night tour • Couple</span>
+        </blockquote>
+      </div>
+    </section>
+
+
+    <!-- BOOKING -->
+    <section id="booking" class="block">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>BOOKING</h2>
+          <p class="hint" data-t>
+            Transparent & affordable private guiding—share a few details and receive a clear quote on WhatsApp before you confirm anything.
+          </p>
+        </div>
+      </div>
+
+      <!-- Transparent Rates -->
+      <div class="card reveal" style="margin-bottom:14px;">
+        <div class="rectInner" style="padding:0;">
+          <div class="miniTitle" data-t>Transparent & Affordable Rates</div>
+          <div class="bigLine" style="margin-top:6px; flex-wrap:wrap;">
+            <span class="chip" data-t>Half Day (4–5 hours): ₹1,800 – ₹2,500</span>
+            <span class="chip" data-t>Full Day (8–10 hours): ₹3,000 – ₹4,500</span>
+            <span class="chip" data-t>Evening Tour (4–5 hours): ₹3,000</span>
+            <span class="chip" data-t>Airport Transfer + Assistance: from ₹1,800</span>
+            <span class="chip" data-t>Multi‑Day Companion: from ₹3,300 per day</span>
+            <span class="chip" data-t>Custom / Taj Mahal Trip: by discussion</span>
+          </div>
+          <div class="miniTitle" style="margin-top:6px;" data-t>
+            Final cost depends on exact hours, distance, and your custom plan. All ticket, transport, food & hotel costs are always charged as per actuals.
+          </div>
+        </div>
+      </div>
+
+            <div class="card reveal">
+        <div class="formGrid">
+          <div class="field">
+            <label data-t>Your Name</label>
+            <input id="name" placeholder="Full name as per passport / ID" />
+          </div>
+
+          <div class="field">
+            <label data-t>Contact (WhatsApp / Email)</label>
+            <input id="contactField" placeholder="+91… (preferred) or your email" />
+          </div>
+
+          <div class="field">
+            <label data-t>Arrival / Preferred Date</label>
+            <input id="date" type="date" />
+          </div>
+
+          <div class="field">
+            <label data-t>Preferred Time</label>
+            <input id="time" type="time" placeholder="--:--" />
+          </div>
+
+          <div class="field">
+            <label data-t>Tour Duration (Rate List)</label>
+            <select id="ratePlan">
+              <option value="Half Day (4–5 hours) • ₹1,800 – ₹2,500">Half Day (4–5 Hours) – ₹1,800 – ₹2,500</option>
+              <option value="Full Day (8–10 hours) • ₹3,000 – ₹4,500">Full Day (8–10 Hours) – ₹3,000 – ₹4,500</option>
+              <option value="Evening Tour (4–5 hours) • ₹3,000">Evening Tour (4–5 Hours) – ₹3,000</option>
+              <option value="Airport Transfer + Assistance • from ₹1,800">Airport Transfer + Assistance – ₹1,800</option>
+              <option value="Multi‑Day Companion • from ₹3,300 per day">Multi‑Day Companion – from ₹3,300 / day</option>
+              <option value="Custom / Taj Mahal Trip • by discussion">Custom / Taj Mahal Trip – by discussion</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label data-t>Travel Type / Group Size</label>
+            <select id="type">
+              <option>Solo</option>
+              <option>Single</option>
+              <option>Couple</option>
+              <option>Family with kids</option>
+              <option>Friends group</option>
+              <option>Business / Work trip</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label data-t>Visit Reason</label>
+            <select id="visitReason">
+              <option>Explore the cities or places</option>
+              <option>As a tourist</option>
+              <option>Explore culture</option>
+              <option>Special meeting</option>
+              <option>Business trip</option>
+              <option>Religious places</option>
+              <option>Romantic places</option>
+              <option>Romantic meet‑up</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label data-t>Age</label>
+            <input id="age" type="number" min="18" max="100" placeholder="Your age" />
+          </div>
+
+          <div class="field">
+            <label data-t>Country</label>
+            <input id="countryField" placeholder="Your country" />
+          </div>
+
+          <div class="field">
+            <label data-t>City</label>
+            <input id="cityField" placeholder="Your city" />
+          </div>
+
+          <div class="field" style="grid-column:1 / -1;">
+            <label data-t>Upload Government ID + Passport Copy (optional)</label>
+            <input id="idUpload" type="file" multiple />
+            <span class="miniTitle" data-t>
+              You can also send your ID and passport copy later directly on WhatsApp or email if you prefer.
+            </span>
+          </div>
+
+          <div class="field" style="grid-column: 1 / -1;">
+            <label data-t>Your Interests / Message / What do you want this day to feel like?</label>
+            <textarea id="msg" placeholder="Example: peaceful temples in the morning, local veg food, Old Delhi walk, some shopping, sunset photos at a monument, back to hotel by 9pm."></textarea>
+          </div>
+        </div>
+
+        <div class="formActions">
+          <button class="btn btnPrimary" id="bookingBtn" data-t>Send Details on WhatsApp</button>
+
+          <button class="btn btnGhost" id="emailBtn" data-t>Send Details by Email</button>
+
+          <a class="btn btnGhost"
+             id="rateCardBtn"
+             href="assets/atithi-devo-bhavah-rate-card.pdf"
+             target="_blank"
+             rel="noopener"
+             data-t>
+            View Detailed Rate Card (PDF)
+          </a>
+
+          <button class="btn btnGhost" id="translateBtn" data-t>Auto-Translate Page</button>
+          <span class="miniTitle" id="translateState">—</span>
+          <span class="miniTitle" style="color:rgba(148,163,184,.86);" data-t>
+            Sending this form does not lock you into anything. You will always see the plan and total estimate before confirming.
+          </span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CONTACT + MAP -->
+    <section id="contact" class="block">
+      <div class="sectionHead">
+          <h2 class="h2" data-t>CONTACT</h2>
+          <p class="hint" data-t>
+            Contact me on WhatsApp, Instagram, and Email.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>WhatsApp</h3>
+          <p class="cardText" data-t>Best way to plan quickly, share location, and coordinate pickups.</p>
+          <p class="cardText" style="margin-top:10px;">
+            <a class="btn btnGhost" href="https://wa.me/917988717234" target="_blank" onclick="alert('CONTACT ME ON WHATSAPP - FAST AND RELIABLE'); return true;" data-t>Open WhatsApp</a>
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Instagram</h3>
+          <p class="cardText" data-t>Perfect for last‑minute plans and airport coordination.</p>
+          <p class="cardText" style="margin-top:10px;">
+            <a class="btn btnGhost" href="https://instagram.com/atithi_devo_bhavah_16" target="_blank" onclick="alert('You are on the way to contact me through INSTAGRAM.'); return true;" data-t>Call Now</a>
+          </p>
+        </div>
+        <div class="card reveal">
+          <h3 class="cardTitle" data-t>Email</h3>
+          <p class="cardText" data-t>Send trip details, hotel names, and any documents comfortably.</p>
+          <p class="cardText" style="margin-top:10px;">
+            <a class="btn btnGhost" href="mailto:atithi.devo.bhavah.16@gmail.com" target="_blank" onclick="alert('You are on the way to contact me through MAIL.'); return true;" data-t>Send Email</a>
+          </p>
+        </div>
+      </div>
+      <br>
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>SONIPAT LOCATION</h2>
+          <p class="hint" data-t>Find the service base and contact instantly.</p>
+        </div>
+      </div>
+
+      <div class="mapCard reveal">
+        <div class="mapFrame">
+          <iframe
+            title="Sonipat Map"
+            src="https://www.google.com/maps?q=Sonipat,%20Haryana&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="mapInfo">
+          <div class="mapInfoTop">
+            <span class="mapBadge" data-t>Service Base</span>
+            <span class="mapBadge" data-t>Delhi NCR • Sonipat</span>
+          </div>
+          <p class="mapTitle" data-t>ATITHI DEVO BHAVAH</p>
+          <p class="mapText" data-t>Sonipat, Haryana, India</p>
+          <div class="mapContacts">
+            <a class="mapLink" href="https://wa.me/917988717234" target="_blank" rel="noopener" data-t>WhatsApp: +91 79887 17234</a>
+            <a class="mapLink" href="mailto:atithi.devo.bhavah.16@gmail.com" data-t>Email: atithi.devo.bhavah.16@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+    <footer>
+    <div class="wrap">
+      <div class="footerGrid">
+
+        <!-- Brand + last CTA -->
+        <div class="footCol footBrand">
+          <div class="footLogo">
+            <div class="mark">
+              <div class="markCore"></div>
+              <div class="markHalo"></div>
+            </div>
+            <div class="footLogoText">
+              <span class="footBrandName">ATITHI DEVO BHAVAH</span>
+              <span class="footBrandSub" data-t>Your Personal Trusted Travel Guide</span>
+            </div>
+          </div>
+          <p class="footText" data-t>
+            Independent local guide for Delhi NCR & Sonipat—focused on safety, clarity, and hospitality that feels like family, not like a sales pitch.
+          </p>
+          <a href="#booking" class="btn btnPrimary footCTA" data-t>Plan Your Day with Me</a>
+        </div>
+
+        <!-- Quick navigation + service area -->
+        <div class="footCol">
+          <p class="footTitle" data-t>Explore</p>
+          <div class="footLinks">
+            <a href="#services" data-t>Services & Experiences</a>
+            <a href="#safety" data-t>Safety & Comfort</a>
+            <a href="#verification" data-t>Verification & Proof</a>
+            <a href="#stories" data-t>Guest Stories</a>
+            <a href="#gallery" data-t>Photo Moments</a>
+          </div>
+
+          <p class="footTitle" style="margin-top:12px;" data-t>Service Area</p>
+          <p class="footText" data-t>
+            Delhi NCR • Sonipat • Nearby towns & day‑trip circuits (Agra / Taj Mahal trips by prior discussion).
+          </p>
+        </div>
+
+        <!-- Contact + trust badges -->
+        <div class="footCol">
+          <p class="footTitle" data-t>Contact & Availability</p>
+          <p class="footText" data-t>
+            Share your dates and ideas on WhatsApp or email. I usually respond within a few hours and send a clear plan with an estimate before you decide.
+          </p>
+          <p class="footText footContactLine" data-t>
+            WhatsApp : +917988717234 <br> Email : atithi.devo.bhavah.16@gmail.com
+          </p>
+          <p class="footText" data-t><a href="info.html" class="btn btnPrimary footCTA" target="_blank">Read My Information</a></p>
+          <div class="trustRow">
+            <span class="trustBadge" data-t>Local Guide</span>
+            <span class="trustBadge" data-t>Transparent Pricing</span>
+            <span class="trustBadge" data-t>Safety‑Focused</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footBottom">
+        <span class="footSmall" data-t>
+          © <span id="year"></span> ATITHI DEVO BHAVAH • Delhi NCR & Sonipat
+        </span>
+        <span class="footSmall" data-t>
+          Respecting your time, safety & privacy on every trip.
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
