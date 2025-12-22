@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#020617" />
+  <title>Verified Tourists & Stories — ATITHI DEVO BHAVAH</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;600;700;800&family=Kalam:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Reuse main styles -->
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Page-specific tweaks */
+    body{
+      background:
+        radial-gradient(1000px 700px at 15% 5%, rgba(124,58,237,.20), transparent 60%),
+        radial-gradient(950px 650px at 80% 10%, rgba(6,182,212,.18), transparent 60%),
+        linear-gradient(180deg, #020617, #020617 38%, #020617);
+    }
+    main.wrap{
+      padding-top:24px;
+      padding-bottom:40px;
+    }
+    .badgeRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .badgeSoft{
+      font-size:11px;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.75);
+      background:rgba(15,23,42,.96);
+      color:rgba(226,232,240,.96);
+    }
+    .storiesGrid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
+    @media(max-width:980px){
+      .storiesGrid{ grid-template-columns:1fr 1fr; }
+    }
+    @media(max-width:720px){
+      .storiesGrid{ grid-template-columns:1fr; }
+    }
+    .storyCard{
+      border-radius:18px;
+      background:rgba(15,23,42,.98);
+      border:1px solid rgba(148,163,184,.80);
+      box-shadow:0 14px 40px rgba(0,0,0,.40);
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .storyCard::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:radial-gradient(520px 220px at 10% 0%, rgba(6,182,212,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .storyTop{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:6px;
+    }
+    .storyName{
+      font-weight:600;
+      font-size:13px;
+    }
+    .storyMeta{
+      position:relative;
+      margin-top:8px;
+      font-size:11px;
+      color:rgba(148,163,184,.86);
+    }
+    .platformRow{
+      margin-top:6px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font-size:10px;
+      color:rgba(148,163,184,.86);
+    }
+    .platformRow span{
+      padding:3px 7px;
+      border-radius:999px;
+      border:1px solid rgba(51,65,85,.85);
+      background:rgba(15,23,42,.96);
+    }
+    .storyQuote{
+      position:relative;
+      margin:6px 0 0;
+      font-size:12px;
+      color:rgba(248,250,252,.92);
+      line-height:1.7;
+    }
+    .storyQuote::before{
+      content:"“";
+      position:absolute;
+      left:-10px;
+      top:-6px;
+      font-size:26px;
+      color:rgba(55,65,81,.85);
+    }
+    .storyQuote::after{
+      content:"”";
+      position:relative;
+      font-size:18px;
+      color:rgba(55,65,81,.85);
+      margin-left:4px;
+    }
+    .pillFilterRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:12px 0 18px;
+    }
+    .pillFilter{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.70);
+      background:rgba(15,23,42,.96);
+      font-size:11px;
+      color:rgba(226,232,240,.96);
+    }
+    .pillFilter.active{
+      border-color:rgba(59,130,246,1);
+      background:rgba(37,99,235,.15);
+      color:rgba(191,219,254,1);
+    }
+    .backLink{
+      font-size:12px;
+      color:rgba(96,165,250,.96);
+      text-decoration:none;
+    }
+    .backLink:hover{ text-decoration:underline; }
+  </style>
+</head>
+
+<body>
+  <div class="fx" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="logo" href="index.html#home" aria-label="ATITHI DEVO BHAVAH Home">
+          <div class="mark" aria-hidden="true">
+            <div class="markCore"></div>
+            <div class="markHalo"></div>
+          </div>
+          <div class="logoText">
+            <div class="brandSwap" id="brandSwap">
+              <span class="en">ATITHI DEVO BHAVAH</span>
+              <span class="hi">अतिथि देवो भवः</span>
+            </div>
+            <div class="logoSub">
+              <span class="logoBadge">Delhi NCR • Sonipat</span>
+              <span class="logoSeparator">•</span>
+              <span class="logoRole">Personal Travel Guide</span>
+            </div>
+          </div>
+        </a>
+
+        <nav>
+          <button class="menuBtn" id="menuBtn" aria-label="Open menu">Menu</button>
+          <div class="navlinks" id="navlinks">
+            <a href="index.html#home" data-t>HOME</a>
+            <a href="index.html#services" data-t>SERVICES</a>
+            <a href="index.html#safety" data-t>SAFETY</a>
+            <a href="index.html#verification" data-t>VERIFICATION</a>
+            <a href="index.html#stories" data-t>STORIES</a>
+            <a href="index.html#booking" data-t>BOOKING</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="block" id="verified-stories">
+      <div class="sectionHead">
+        <div>
+          <h2 class="h2" data-t>Verified Tourists & Stories</h2>
+          <p class="hint" data-t>
+            A growing list of real travelers who trusted “Atithi Devo Bhavah” for Delhi NCR, Sonipat, and nearby trips—each name and story verified before adding here.
+          </p>
+          <div class="badgeRow">
+            <span class="badgeSoft" data-t>Verified Tourist Badge</span>
+            <span class="badgeSoft" data-t>No paid or fake reviews</span>
+            <span class="badgeSoft" data-t>Real trips • Real photos • Real messages</span>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+          <a href="index.html#stories" class="backLink" data-t>← Back to main page</a>
+          <span class="miniTitle" data-t>Updated as new verified guests share permission.</span>
+        </div>
+      </div>
+
+      <!-- Simple filter pills (static for now, can be wired later) -->
+      <div class="pillFilterRow">
+        <button class="pillFilter active" type="button" data-t>All</button>
+        <button class="pillFilter" type="button" data-t>Solo</button>
+        <button class="pillFilter" type="button" data-t>Couples</button>
+        <button class="pillFilter" type="button" data-t>Families</button>
+        <button class="pillFilter" type="button" data-t>Business / Work</button>
+        <button class="pillFilter" type="button" data-t>Religious / Spiritual</button>
+        <button class="pillFilter" type="button" data-t>Evening / Night</button>
+      </div>
+
+      <div class="storiesGrid">
+
+        <!-- Story 1 -->
+        <article class="storyCard reveal">
+          <div class="storyTop">
+            <div>
+              <div class="storyName" data-t>Emma R. • Solo Traveler</div>
+              <div class="touristMeta" data-t>From UK • 1‑day Old Delhi + New Delhi</div>
+            </div>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p class="storyQuote" data-t>
+            I reached Delhi alone, around midnight, with my phone almost out of battery. He was already waiting outside with my name on a board, walked me calmly to the car, and made sure my hotel check‑in was smooth. The next day was slow, safe, and full of stories—not just sightseeing. I never once felt pushed, rushed, or unsafe.
+          </p>
+          <div class="storyMeta" data-t>Trip type: Solo • Focus: Culture, food, local markets</div>
+          <div class="platformRow">
+            <span data-t>WhatsApp chat screenshot saved</span>
+            <span data-t>Photo together (with consent)</span>
+          </div>
+        </article>
+
+        <!-- Story 2 -->
+        <article class="storyCard reveal">
+          <div class="storyTop">
+            <div>
+              <div class="storyName" data-t>Ahmed & Family</div>
+              <div class="touristMeta" data-t>From Middle East • 2‑day Delhi highlights</div>
+            </div>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p class="storyQuote" data-t>
+            We were traveling with kids and my elderly parents, so our biggest worry was comfort and respectful planning. He organised a car with enough space, chose places with clean facilities, halal‑friendly food options, and always checked if everyone was okay before moving to the next spot. My parents still remember how patient he was.
+          </p>
+          <div class="storyMeta" data-t>Trip type: Family • Focus: Easy walking, food, major sites</div>
+          <div class="platformRow">
+            <span data-t>Voice notes + WhatsApp review</span>
+            <span data-t>Google Maps rating (pending)</span>
+          </div>
+        </article>
+
+        <!-- Story 3 -->
+        <article class="storyCard reveal">
+          <div class="storyTop">
+            <div>
+              <div class="storyName" data-t>Sofia & Mark</div>
+              <div class="touristMeta" data-t>From Europe • Evening & night tour</div>
+            </div>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p class="storyQuote" data-t>
+            We asked specifically for less “checklist tourism” and more slow, romantic spots—tea, viewpoints, and calm corners of the city. He adjusted everything on the fly based on our energy. We never felt sold to, just guided. The night ended with chai, photos, and a very safe drop back to our hotel.
+          </p>
+          <div class="storyMeta" data-t>Trip type: Couple • Focus: Photos, chai, relaxed vibe</div>
+          <div class="platformRow">
+            <span data-t>Instagram DM review</span>
+            <span data-t>Photo album (shared privately)</span>
+          </div>
+        </article>
+
+        <!-- Story 4 -->
+        <article class="storyCard reveal">
+          <div class="storyTop">
+            <div>
+              <div class="storyName" data-t>Priya S. & Friends</div>
+              <div class="touristMeta" data-t>From India (other state) • Weekend in Delhi NCR</div>
+            </div>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p class="storyQuote" data-t>
+            We were a group of four friends visiting Delhi for a concert and some shopping. He handled all logistics—airport pick‑up, hotel suggestions, safe late‑night return after the event, and genuine advice on where to shop without being scammed. It felt like having a responsible elder brother around.
+          </p>
+          <div class="storyMeta" data-t>Trip type: Friends group • Focus: Event + shopping</div>
+          <div class="platformRow">
+            <span data-t>WhatsApp text review</span>
+            <span data-t>Concert day photos</span>
+          </div>
+        </article>
+
+        <!-- Story 5 -->
+        <article class="storyCard reveal">
+          <div class="storyTop">
+            <div>
+              <div class="storyName" data-t>Mr. & Mrs. Tan</div>
+              <div class="touristMeta" data-t>From Singapore • One‑day Taj Mahal trip (with partner driver)</div>
+            </div>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p class="storyQuote" data-t>
+            We wanted to see the Taj Mahal but were scared about scams and timings. He coordinated a trusted driver, guided us through ticketing and entry, gave us space for our own moments, and made sure we had good vegetarian food on the way. Everything was clear in advance—no surprise charges.
+          </p>
+          <div class="storyMeta" data-t>Trip type: Couple • Focus: Taj Mahal, comfort, clarity</div>
+          <div class="platformRow">
+            <span data-t>WhatsApp feedback</span>
+            <span data-t>Photo near Taj (with consent)</span>
+          </div>
+        </article>
+
+        <!-- Story 6 -->
+        <article class="storyCard reveal">
+          <div class="storyTop">
+            <div>
+              <div class="storyName" data-t>Business Guest • Name on file</div>
+              <div class="touristMeta" data-t>From Europe • 2‑day work + short city visit</div>
+            </div>
+            <span class="touristTag">
+              <span class="tick"></span>
+              <span data-t>Verified Tourist</span>
+            </span>
+          </div>
+          <p class="storyQuote" data-t>
+            My schedule was tight with meetings, but I didn’t want to sit in the hotel the whole time. He worked around my calls, planned short evening drives, food stops, and two temple visits that fit perfectly between work. The punctuality and clear communication made it very easy for me.
+          </p>
+          <div class="storyMeta" data-t>Trip type: Business • Focus: Time‑boxed, safe, efficient</div>
+          <div class="platformRow">
+            <span data-t>Email testimonial</span>
+            <span data-t>Company name kept private</span>
+          </div>
+        </article>
+
+      </div>
+
+      <div style="margin-top:24px; padding:14px 16px; border-radius:16px; border:1px dashed rgba(55,65,81,.85); background:rgba(15,23,42,.96);">
+        <p class="footText" style="margin:0 0 8px;" data-t>
+          Do you want your story here as a verified guest? After your trip, you can share a short review on WhatsApp or email, and—only with your clear permission—your words may appear on this page.
+        </p>
+        <p class="footText" style="margin:0; font-size:11px; color:rgba(148,163,184,.86);" data-t>
+          Names can be shortened or anonymized if you prefer more privacy (for example: “Emma R.”, “Family from UAE”, “Business guest from Europe”).
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footerGrid">
+
+        <!-- Brand + last CTA -->
+        <div class="footCol footBrand">
+          <div class="footLogo">
+            <div class="mark">
+              <div class="markCore"></div>
+              <div class="markHalo"></div>
+            </div>
+            <div class="footLogoText">
+              <span class="footBrandName">ATITHI DEVO BHAVAH</span>
+              <span class="footBrandSub" data-t>Your Personal Trusted Travel Guide</span>
+            </div>
+          </div>
+          <p class="footText" data-t>
+            Independent local guide for Delhi NCR & Sonipat—focused on safety, clarity, and hospitality that feels like family, not like a sales pitch.
+          </p>
+          <a href="index.html#booking" class="btn btnPrimary footCTA" data-t>Plan Your Day with Me</a>
+        </div>
+
+        <!-- Quick navigation + service area -->
+        <div class="footCol">
+          <p class="footTitle" data-t>Explore</p>
+          <div class="footLinks">
+            <a href="index.html#services" data-t>Services & Experiences</a>
+            <a href="index.html#safety" data-t>Safety & Comfort</a>
+            <a href="index.html#verification" data-t>Verification & Proof</a>
+            <a href="index.html#stories" data-t>Guest Stories</a>
+            <a href="index.html#gallery" data-t>Photo Moments</a>
+          </div>
+
+          <p class="footTitle" style="margin-top:12px;" data-t>Service Area</p>
+          <p class="footText" data-t>
+            Delhi NCR • Sonipat • Nearby towns & day‑trip circuits (Agra / Taj Mahal trips by prior discussion).
+          </p>
+        </div>
+
+        <!-- Contact + trust badges -->
+        <div class="footCol">
+          <p class="footTitle" data-t>Contact & Availability</p>
+          <p class="footText" data-t>
+            Share your dates and ideas on WhatsApp or email. You usually get a reply within a few hours with a clear plan and transparent estimate.
+          </p>
+          <p class="footText footContactLine" data-t>
+            WhatsApp: +91 79887 17234 • Email: atithi.devo.bhavah.16@gmail.com
+          </p>
+
+          <div class="trustRow">
+            <span class="trustBadge" data-t>Local Guide</span>
+            <span class="trustBadge" data-t>Verified Tourists</span>
+            <span class="trustBadge" data-t>Transparent Pricing</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footBottom">
+        <span class="footSmall" data-t>
+          © <span id="year"></span> ATITHI DEVO BHAVAH • Delhi NCR & Sonipat
+        </span>
+        <span class="footSmall" data-t>
+          Respecting your time, safety & privacy on every trip.
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal JS to reuse header behaviors + year + logo animation
+    const $ = (id) => document.getElementById(id);
+
+    const navlinks = $("navlinks");
+    const menuBtn = $("menuBtn");
+    if(menuBtn && navlinks){
+      menuBtn.addEventListener("click", () => navlinks.classList.toggle("open"));
+      navlinks.querySelectorAll("a").forEach(a =>
+        a.addEventListener("click", () => navlinks.classList.remove("open"))
+      );
+    }
+
+    const brandSwap = $("brandSwap");
+    if(brandSwap){
+      setInterval(() => brandSwap.classList.toggle("swap"), 2200);
+    }
+
+    const yearEl = $("year");
+    if(yearEl){
+      yearEl.textContent = new Date().getFullYear();
+    }
+
+    // Simple reveal animation reuse
+    const revealEls = Array.from(document.querySelectorAll(".reveal"));
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add("on");
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
