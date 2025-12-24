@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>About • ATITHI DEVO BHAVAH</title>
+  <title>Detail Information • ATITHI DEVO BHAVAH</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;600;700;800&family=Kalam:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="styles.css" />
   <style>
     :root{
       --bg0:#020617; --bg1:#020617;
@@ -21,7 +21,7 @@
     *{ box-sizing:border-box; margin:0; padding:0; }
     html{ scroll-behavior:smooth; }
     body{
-      font-family:Poppins,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+      font-family:Ubuntu,system-ui,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
       background:
         radial-gradient(1200px 800px at 10% 0%, rgba(124,58,237,.20), transparent 60%),
@@ -419,10 +419,20 @@
     <div class="wrap">
       <div class="topbar">
         <a href="index.html#home" class="logo">
-          <div class="mark"></div>
+          <div class="mark" aria-hidden="true">
+            <div class="markCore"></div>
+            <div class="markHalo"></div>
+          </div>
           <div class="logoText">
-            <div class="logoName">ATITHI DEVO BHAVAH</div>
-            <div class="logoSub">Personal Travel Guide • Delhi NCR • Sonipat</div>
+            <div class="brandSwap" id="brandSwap">
+              <span class="en">ATITHI DEVO BHAVAH</span>
+              <span class="hi">अतिथि देवो भवः</span>
+            </div>
+            <div class="logoSub">
+              <span class="logoBadge">Delhi NCR • Sonipat</span>
+              <span class="logoSeparator">•</span>
+              <span class="logoRole">Personal Travel Guide</span>
+            </div>
           </div>
         </a>
         <nav class="nav">
@@ -469,7 +479,14 @@
         <div class="avatarWrap"></div>
         <div class="name">Your Personal Guide</div>
         <div class="role">Local host • Safety-first companion • Spiritual-friendly</div>
-
+          <div class="stat">
+            Founder of <strong>ATITHI DEVO BHAVAH</strong> - a Personal Travel Guidance Service built on honest, responsibility, and Bhartiya(Indian) hospitality values. Serving <strong>Delhi NCR & Sonipat & Nearby regions</strong> with safety-first, guest-centric guidance.
+          </div>
+          <div class="name">Professional Identity</div>
+            <div class="role">Who I am • How I work • What I stand for</div>
+            <div class"stat">
+              I am <strong>Pardeep Singh</strong>, an independent <strong>Personal Travel Guide</strong> working under the principle of <strong>"ATITHI DEVO BHAVAH"</strong>. My work is not based on selling tours, but on guiding people responsibly through unfamiliar environments.
+            </div>
         <div class="statGrid">
           <div class="stat">
             <b>Delhi NCR & Sonipat</b>
@@ -603,7 +620,75 @@
         </div>
       </div>
     </section>
-
   </main>
+  <footer>
+    <div class="wrap">
+      <div class="footerGrid">
+
+        <!-- Brand + last CTA -->
+        <div class="footCol footBrand">
+          <div class="footLogo">
+            <div class="mark">
+              <div class="markCore"></div>
+              <div class="markHalo"></div>
+            </div>
+            <div class="footLogoText">
+              <span class="footBrandName">ATITHI DEVO BHAVAH</span>
+              <span class="footBrandSub" data-t>Your Personal Trusted Travel Guide</span>
+            </div>
+          </div>
+          <p class="footText" data-t>
+            Independent local guide for Delhi NCR & Sonipat—focused on safety, clarity, and hospitality that feels like family, not like a sales pitch.
+          </p>
+          <a href="#booking" class="btn btnPrimary footCTA" data-t>Plan Your Day with Me</a>
+        </div>
+
+        <!-- Quick navigation + service area -->
+        <div class="footCol">
+          <p class="footTitle" data-t>Explore</p>
+          <div class="footLinks">
+            <a href="#services" data-t>Services & Experiences</a>
+            <a href="#safety" data-t>Safety & Comfort</a>
+            <a href="#verification" data-t>Verification & Proof</a>
+            <a href="#stories" data-t>Guest Stories</a>
+            <a href="#gallery" data-t>Photo Moments</a>
+          </div>
+
+          <p class="footTitle" style="margin-top:12px;" data-t>Service Area</p>
+          <p class="footText" data-t>
+            Delhi NCR • Sonipat • Nearby towns & day‑trip circuits (Agra / Taj Mahal trips by prior discussion).
+          </p>
+        </div>
+
+        <!-- Contact + trust badges -->
+        <div class="footCol">
+          <p class="footTitle" data-t>Contact & Availability</p>
+          <p class="footText" data-t>
+            Share your dates and ideas on WhatsApp or email. I usually respond within a few hours and send a clear plan with an estimate before you decide.
+          </p>
+          <p class="footText footContactLine" data-t>
+            WhatsApp : +917988717234 <br> Email : atithi.devo.bhavah.16@gmail.com
+          </p>
+          <p class="footText" data-t><a href="info.html" class="btn btnPrimary footCTA" target="_blank">Read My Information</a></p>
+          <div class="trustRow">
+            <span class="trustBadge" data-t>Local Guide</span>
+            <span class="trustBadge" data-t>Transparent Pricing</span>
+            <span class="trustBadge" data-t>Safety‑Focused</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footBottom">
+        <span class="footSmall" data-t>
+          © <span id="year"></span> ATITHI DEVO BHAVAH • Delhi NCR & Sonipat
+        </span>
+        <span class="footSmall" data-t>
+          Respecting your time, safety & privacy on every trip.
+        </span>
+      </div>
+    </div>
+  </footer>
+  <script src="main.js"></script>
 </body>
 </html>
