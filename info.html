@@ -3,412 +3,18 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="#020617" />
   <title>Detail Information • ATITHI DEVO BHAVAH</title>
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;600;700;800&family=Kalam:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="in_styles.css" />
+    
   <style>
-    :root{
-      --bg0:#020617; --bg1:#020617;
-      --a:#7c3aed; --b:#06b6d4; --c:#f97316; --d:#22c55e; --e:#f43f5e;
-      --text:#e5e7eb; --muted:#94a3b8; --muted2:#64748b;
-      --card:rgba(15,23,42,.96); --border:rgba(148,163,184,.55);
-      --shadow:0 22px 60px rgba(0,0,0,.55);
-      --radius:22px; --radius2:26px; --max:1100px;
-    }
-    *{ box-sizing:border-box; margin:0; padding:0; }
-    html{ scroll-behavior:smooth; }
-    body{
-      font-family:Ubuntu,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 800px at 10% 0%, rgba(124,58,237,.20), transparent 60%),
-        radial-gradient(1100px 700px at 90% 5%, rgba(6,182,212,.20), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      min-height:100vh;
-      overflow-x:hidden;
-    }
-    .fx{
-      position:fixed; inset:0; pointer-events:none;
-      background:
-        radial-gradient(900px 750px at 20% 20%, rgba(255,255,255,.05), transparent 60%),
-        radial-gradient(800px 650px at 80% 80%, rgba(255,255,255,.04), transparent 60%);
-      mix-blend-mode:soft-light;
-      opacity:.5;
-      animation:fxFloat 12s ease-in-out infinite alternate;
-    }
-    @keyframes fxFloat{
-      from{ transform:translate3d(0,0,0); }
-      to{ transform:translate3d(0,-20px,0); }
-    }
-    .wrap{ width:min(var(--max), calc(100% - 40px)); margin-inline:auto; }
-
-    /* Top header / nav */
-    header{
-      padding:16px 0 10px;
-      position:sticky;
-      top:0;
-      z-index:20;
-      background:linear-gradient(180deg, rgba(2,6,23,.96), rgba(2,6,23,.88));
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(148,163,184,.40);
-    }
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-    }
-    .logo{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:inherit;
-    }
-    .mark{
-      width:46px; height:46px;
-      border-radius:18px;
-      position:relative;
-      overflow:hidden;
-      background:radial-gradient(circle at 20% 20%, #e5e7eb, transparent 55%),
-                 conic-gradient(from 210deg, var(--b), var(--a), var(--e), var(--c), var(--b));
-      box-shadow:0 14px 40px rgba(15,23,42,.75);
-    }
-    .mark::after{
-      content:"अ";
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Hind,system-ui;
-      font-weight:700;
-      color:#020617;
-      text-shadow:0 0 10px rgba(248,250,252,.9);
-    }
-    .logoText{ display:flex; flex-direction:column; line-height:1.1; }
-    .logoName{
-      font-size:14px; font-weight:800; letter-spacing:.16em;
-    }
-    .logoSub{ font-size:11px; color:var(--muted); }
-
-    .nav{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-size:12px;
-    }
-    .nav a{
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.5);
-      color:rgba(226,232,240,.9);
-      text-decoration:none;
-      background:rgba(15,23,42,.9);
-      transition:.25s ease;
-    }
-    .nav a:hover{
-      background:#020617;
-      transform:translateY(-1px);
-    }
-
-    /* Hero section */
-    .hero{
-      display:grid;
-      grid-template-columns:minmax(0, 1.3fr) minmax(0, .9fr);
-      gap:24px;
-      align-items:stretch;
-      padding:28px 0 24px;
-    }
-    .panel{
-      background:var(--card);
-      border-radius:var(--radius2);
-      border:1px solid var(--border);
-      box-shadow:var(--shadow);
-      padding:24px 22px;
-      position:relative;
-      overflow:hidden;
-    }
-    .panel::before{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      background:
-        radial-gradient(800px 340px at 10% 0%, rgba(124,58,237,.20), transparent 60%),
-        radial-gradient(800px 340px at 95% 10%, rgba(6,182,212,.18), transparent 60%);
-      pointer-events:none;
-      opacity:.9;
-    }
-    .panel > *{ position:relative; z-index:1; }
-
-    .heroIntro{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .tagRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      font-size:11px;
-    }
-    .tag{
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.6);
-      background:rgba(15,23,42,.92);
-      color:rgba(226,232,240,.92);
-    }
-
-    .title{
-      font-size:clamp(24px, 3.4vw, 32px);
-      font-weight:800;
-      letter-spacing:.3px;
-    }
-    .subtitle{
-      font-size:13px;
-      color:var(--muted);
-      max-width:60ch;
-      line-height:1.7;
-    }
-
-    .pillRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:6px;
-    }
-    .pill{
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:11px;
-      border:1px solid rgba(148,163,184,.5);
-      background:rgba(15,23,42,.96);
-      color:rgba(226,232,240,.96);
-    }
-
-    .ctaRow{
-      margin-top:14px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-    }
-    .btn{
-      border:none;
-      cursor:pointer;
-      border-radius:999px;
-      padding:10px 14px;
-      font-size:12px;
-      font-weight:600;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      text-decoration:none;
-      transition:.25s ease;
-    }
-    .btnPrimary{
-      color:#020617;
-      background:linear-gradient(90deg, var(--b), var(--a), var(--e));
-      box-shadow:0 14px 40px rgba(124,58,237,.25);
-    }
-    .btnPrimary:hover{ transform:translateY(-2px); filter:brightness(1.03); }
-    .btnGhost{
-      color:rgba(226,232,240,.96);
-      background:rgba(15,23,42,.96);
-      border:1px solid rgba(148,163,184,.7);
-    }
-    .btnGhost:hover{ transform:translateY(-2px); background:#020617; }
-    .miniNote{
-      font-size:11px;
-      color:var(--muted2);
-    }
-
-    /* Right panel - Avatar & quick stats */
-    .profilePanel{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:12px;
-      text-align:center;
-    }
-    .avatarWrap{
-      width:96px; height:96px;
-      border-radius:999px;
-      background:
-        radial-gradient(circle at 30% 10%, #e5e7eb, transparent 55%),
-        linear-gradient(135deg,#0f172a,#1f2937);
-      border:2px solid rgba(148,163,184,.9);
-      box-shadow:0 14px 40px rgba(0,0,0,.6);
-      position:relative;
-      overflow:hidden;
-    }
-    .avatarWrap::after{
-      content:"YOU";
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:18px;
-      font-weight:700;
-      color:rgba(148,163,184,.9);
-    }
-    .name{
-      font-size:16px;
-      font-weight:700;
-      letter-spacing:.2px;
-    }
-    .role{
-      font-size:11px;
-      color:var(--muted);
-    }
-    .statGrid{
-      margin-top:10px;
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:8px;
-      width:100%;
-    }
-    .stat{
-      padding:10px 8px;
-      border-radius:14px;
-      background:rgba(15,23,42,.96);
-      border:1px solid rgba(148,163,184,.6);
-      font-size:11px;
-      text-align:left;
-    }
-    .stat b{ display:block; font-size:13px; margin-bottom:2px; }
-
-    /* Sections */
-    section.block{
-      margin-bottom:24px;
-    }
-    .sectionHead{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:16px;
-      margin-bottom:12px;
-    }
-    .sectionTitle{ font-size:16px; font-weight:700; }
-    .sectionHint{ font-size:12px; color:var(--muted); }
-
-    .twoCol{
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:16px;
-    }
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      border:1px solid var(--border);
-      box-shadow:0 14px 40px rgba(0,0,0,.5);
-      padding:16px 16px 14px;
-      position:relative;
-      overflow:hidden;
-    }
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      background:radial-gradient(520px 220px at 20% 0%, rgba(6,182,212,.12), transparent 60%);
-      opacity:.7;
-      pointer-events:none;
-    }
-    .card > *{ position:relative; z-index:1; }
-    .cardTitle{ font-size:13px; font-weight:700; margin-bottom:6px; }
-    .cardText{ font-size:12px; color:var(--muted); line-height:1.8; }
-
-    /* Timeline */
-    .timeline{
-      list-style:none;
-      padding-left:0;
-      margin:4px 0 0;
-      border-left:1px solid rgba(148,163,184,.5);
-    }
-    .timeline li{
-      padding:8px 0 8px 12px;
-      position:relative;
-      font-size:12px;
-      color:var(--muted);
-    }
-    .timeline li::before{
-      content:"";
-      position:absolute;
-      left:-5px; top:11px;
-      width:9px; height:9px;
-      border-radius:999px;
-      background:linear-gradient(135deg,var(--b),var(--a));
-      box-shadow:0 0 0 4px rgba(37,99,235,.3);
-    }
-    .timeline span{
-      display:block;
-      font-weight:600;
-      color:#e5e7eb;
-      margin-bottom:2px;
-    }
-
-    /* Skill chips */
-    .chipGrid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:6px;
-    }
-    .chip{
-      font-size:11px;
-      padding:5px 9px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.7);
-      background:rgba(15,23,42,.96);
-      color:rgba(226,232,240,.96);
-    }
-
-    /* Animated gradient bar */
-    .gradBar{
-      margin:18px 0 16px;
-      height:3px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--b),var(--a),var(--e),var(--c),var(--d));
-      background-size:200% 100%;
-      animation:gradMove 6s linear infinite;
-    }
-    @keyframes gradMove{
-      from{ background-position:0% 50%; }
-      to{ background-position:100% 50%; }
-    }
-
-    /* CTA bottom */
-    .bottomCTA{
-      margin:16px 0 26px;
-      padding:14px 16px;
-      border-radius:20px;
-      background:linear-gradient(135deg, rgba(34,197,94,.15), rgba(6,182,212,.18));
-      border:1px solid rgba(34,197,94,.5);
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      font-size:12px;
-    }
-
-    /* Responsive */
-    @media(max-width:900px){
-      .hero{ grid-template-columns:1fr; }
-      .twoCol{ grid-template-columns:1fr; }
-    }
-    @media(max-width:640px){
-      .topbar{ flex-direction:column; align-items:flex-start; gap:10px; }
-      .nav{ align-self:flex-end; }
-      .panel{ padding:18px 16px; }
-      .card{ padding:14px 12px; }
-      .bottomCTA{ flex-direction:column; align-items:flex-start; }
-    }
+    
   </style>
 </head>
 
@@ -418,7 +24,7 @@
   <header>
     <div class="wrap">
       <div class="topbar">
-        <a href="index.html#home" class="logo">
+          <a class="logo" href="#home" aria-label="ATITHI DEVO BHAVAH Home">
           <div class="mark" aria-hidden="true">
             <div class="markCore"></div>
             <div class="markHalo"></div>
@@ -435,14 +41,25 @@
             </div>
           </div>
         </a>
-        <nav class="nav">
-          <a href="index.html#services">Services</a>
-          <a href="index.html#verification">Verification</a>
-          <a href="index.html#stories">Stories</a>
-          <a href="index.html#booking">Booking</a>
+        <nav>
+            <button class="menuBtn" id="menuBtn" aria-label="Open menu">Menu</button>
+         <div class="navlinks" id="navlinks">
+          <a href="index.html#home" data-t>HOME</a>
+          <a href="index.html#about" data-t>ABOUT</a>
+          <a href="index.html#whyme" data-t>WHY ME</a>
+          <a href="index.html#services" data-t>SERVICES</a>
+          <a href="index.html#safety" data-t>SAFETY</a>
+          <a href="index.html#verification" data-t>VERIFICATION</a>
+          <a href="index.html#gallery" data-t>GALLERY</a>
+          <a href="index.html#stories" data-t>STORIES</a>
+          <a href="index.html#booking" data-t>BOOKING</a>
+          <a href="index.html#contact" data-t>CONTACT</a>
+        </div>
         </nav>
       </div>
-    </div>
+      </div>
+
+      
   </header>
 
   <main class="wrap">
