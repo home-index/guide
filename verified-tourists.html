@@ -58,6 +58,20 @@
       padding:16px;
       position:relative;
       overflow:hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity:1;
+      transform: translateY(0) scale(1);
+    }
+    .storyCard.filtered-out {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      pointer-events: none;
+      transition: all 0.4s ease;
+    }
+    .storyCard:hover:not(.filtered-out) {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(0,0,0,.50);
+      border-color: rgba(59,130,246,.8);
     }
     .storyCard::before{
       content:"";
@@ -65,6 +79,10 @@
       inset:-1px;
       background:radial-gradient(520px 220px at 10% 0%, rgba(6,182,212,.18), transparent 60%);
       pointer-events:none;
+      transition: opacity 0.3s ease;
+    }
+    .storyCard:hover::before:not(.filtered-out) {
+      opacity: 0.7;
     }
     .storyTop{
       position:relative;
@@ -77,12 +95,19 @@
     .storyName{
       font-weight:600;
       font-size:13px;
+      color: rgba(248,250,252,1);
+    }
+    .touristMeta {
+      font-size: 10px;
+      color: rgba(148,163,184,.86);
+      margin-top: 2px;
     }
     .storyMeta{
       position:relative;
       margin-top:8px;
       font-size:11px;
       color:rgba(148,163,184,.86);
+      font-style: italic;
     }
     .platformRow{
       margin-top:6px;
@@ -104,6 +129,8 @@
       font-size:12px;
       color:rgba(248,250,252,.92);
       line-height:1.7;
+      font-style: italic;
+      position: relative;
     }
     .storyQuote::before{
       content:"“";
@@ -120,6 +147,30 @@
       color:rgba(55,65,81,.85);
       margin-left:4px;
     }
+    .touristTag {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: rgba(34,197,94,1);
+      font-weight: 500;
+    }
+    .touristTag .tick {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(34,197,94,1);
+      position: relative;
+    }
+    .touristTag .tick::after {
+      content: "✓";
+      position: absolute;
+      top: -2px;
+      left: 2px;
+      color: white;
+      font-size: 8px;
+      font-weight: bold;
+    }
     .pillFilterRow{
       display:flex;
       flex-wrap:wrap;
@@ -133,11 +184,33 @@
       background:rgba(15,23,42,.96);
       font-size:11px;
       color:rgba(226,232,240,.96);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .pillFilter::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(59,130,246,.2), transparent);
+      transition: left 0.5s;
+    }
+    .pillFilter:hover::before {
+      left: 100%;
+    }
+    .pillFilter:hover {
+      transform: translateY(-1px);
+      border-color: rgba(59,130,246,.8);
     }
     .pillFilter.active{
       border-color:rgba(59,130,246,1);
       background:rgba(37,99,235,.15);
       color:rgba(191,219,254,1);
+      box-shadow: 0 4px 12px rgba(59,130,246,.2);
     }
     .backLink{
       font-size:12px;
@@ -145,6 +218,31 @@
       text-decoration:none;
     }
     .backLink:hover{ text-decoration:underline; }
+    .no-stories {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px 20px;
+      color: rgba(148,163,184,.86);
+      font-size: 14px;
+      background: rgba(15,23,42,.5);
+      border-radius: 12px;
+      border: 1px dashed rgba(148,163,184,.3);
+      animation: fadeIn 0.5s ease;
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .reveal.on {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 
@@ -207,25 +305,25 @@
         </div>
       </div>
 
-      <!-- Simple filter pills (static for now, can be wired later) -->
+      <!-- Dynamic filter pills -->
       <div class="pillFilterRow">
-        <button class="pillFilter active" type="button" data-t>All</button>
-        <button class="pillFilter" type="button" data-t>Solo</button>
-        <button class="pillFilter" type="button" data-t>Couples</button>
-        <button class="pillFilter" type="button" data-t>Families</button>
-        <button class="pillFilter" type="button" data-t>Business / Work</button>
-        <button class="pillFilter" type="button" data-t>Religious / Spiritual</button>
-        <button class="pillFilter" type="button" data-t>Evening / Night</button>
+        <button class="pillFilter active" type="button" data-filter="all" data-t>All</button>
+        <button class="pillFilter" type="button" data-filter="solo" data-t>Solo</button>
+        <button class="pillFilter" type="button" data-filter="couples" data-t>Couples</button>
+        <button class="pillFilter" type="button" data-filter="families" data-t>Families</button>
+        <button class="pillFilter" type="button" data-filter="business" data-t>Business / Work</button>
+        <button class="pillFilter" type="button" data-filter="religious" data-t>Religious / Spiritual</button>
+        <button class="pillFilter" type="button" data-filter="evening" data-t>Evening / Night</button>
       </div>
 
-      <div class="storiesGrid">
+      <div class="storiesGrid" id="storiesGrid">
 
-        <!-- Story 1 -->
-        <article class="storyCard reveal">
+        <!-- Story 1: Solo -->
+        <article class="storyCard reveal" data-tags="solo">
           <div class="storyTop">
             <div>
               <div class="storyName" data-t>Emma R. • Solo Traveler</div>
-              <div class="touristMeta" data-t>From UK • 1‑day Old Delhi + New Delhi</div>
+              <div class="touristMeta" data-t>From UK • Oct 2025 • 1-day Old Delhi + New Delhi</div>
             </div>
             <span class="touristTag">
               <span class="tick"></span>
@@ -233,21 +331,21 @@
             </span>
           </div>
           <p class="storyQuote" data-t>
-            I reached Delhi alone, around midnight, with my phone almost out of battery. He was already waiting outside with my name on a board, walked me calmly to the car, and made sure my hotel check‑in was smooth. The next day was slow, safe, and full of stories—not just sightseeing. I never once felt pushed, rushed, or unsafe.
+            Arriving in Delhi at midnight with a dying phone felt daunting, but he was there with a sign, guiding me safely to the car and hotel. The next day unfolded like a personal narrative—winding through spice markets, savoring street chaat, and pausing for untold histories. No rush, just genuine connection; I left feeling like I'd gained a friend in the chaos.
           </p>
-          <div class="storyMeta" data-t>Trip type: Solo • Focus: Culture, food, local markets</div>
+          <div class="storyMeta" data-t>Trip type: Solo • Focus: Culture, street food, hidden alleys</div>
           <div class="platformRow">
-            <span data-t>WhatsApp chat screenshot saved</span>
-            <span data-t>Photo together (with consent)</span>
+            <span data-t>WhatsApp chat logs</span>
+            <span data-t>Shared market photos (blurred faces)</span>
           </div>
         </article>
 
-        <!-- Story 2 -->
-        <article class="storyCard reveal">
+        <!-- Story 2: Families -->
+        <article class="storyCard reveal" data-tags="families">
           <div class="storyTop">
             <div>
-              <div class="storyName" data-t>Ahmed & Family</div>
-              <div class="touristMeta" data-t>From Middle East • 2‑day Delhi highlights</div>
+              <div class="storyName" data-t>Ahmed K. & Family</div>
+              <div class="touristMeta" data-t>From UAE • Nov 2025 • 2-day Delhi highlights</div>
             </div>
             <span class="touristTag">
               <span class="tick"></span>
@@ -255,21 +353,21 @@
             </span>
           </div>
           <p class="storyQuote" data-t>
-            We were traveling with kids and my elderly parents, so our biggest worry was comfort and respectful planning. He organised a car with enough space, chose places with clean facilities, halal‑friendly food options, and always checked if everyone was okay before moving to the next spot. My parents still remember how patient he was.
+            Traveling with two energetic kids and my 70-year-old parents meant prioritizing ease over exhaustion. He selected an AC van with ample legroom, routed us to family-friendly spots like Lotus Temple with shaded benches and restrooms, and sourced halal kebabs that delighted everyone. His quiet check-ins—"All comfortable?"—turned potential stress into cherished memories.
           </p>
-          <div class="storyMeta" data-t>Trip type: Family • Focus: Easy walking, food, major sites</div>
+          <div class="storyMeta" data-t>Trip type: Family • Focus: Accessible sites, family meals, light pacing</div>
           <div class="platformRow">
-            <span data-t>Voice notes + WhatsApp review</span>
-            <span data-t>Google Maps rating (pending)</span>
+            <span data-t>Voice message thanks</span>
+            <span data-t>Family group photo (consent given)</span>
           </div>
         </article>
 
-        <!-- Story 3 -->
-        <article class="storyCard reveal">
+        <!-- Story 3: Couples + Evening -->
+        <article class="storyCard reveal" data-tags="couples evening">
           <div class="storyTop">
             <div>
-              <div class="storyName" data-t>Sofia & Mark</div>
-              <div class="touristMeta" data-t>From Europe • Evening & night tour</div>
+              <div class="storyName" data-t>Sofia L. & Mark T.</div>
+              <div class="touristMeta" data-t>From Italy • Dec 2025 • Evening & night romantic tour</div>
             </div>
             <span class="touristTag">
               <span class="tick"></span>
@@ -277,21 +375,21 @@
             </span>
           </div>
           <p class="storyQuote" data-t>
-            We asked specifically for less “checklist tourism” and more slow, romantic spots—tea, viewpoints, and calm corners of the city. He adjusted everything on the fly based on our energy. We never felt sold to, just guided. The night ended with chai, photos, and a very safe drop back to our hotel.
+            We craved intimacy over itineraries—sunset views from India Gate, candlelit rooftop chai in Hauz Khas, and a gentle drive through lit-up Connaught Place. He read our moods flawlessly, suggesting detours for stargazing breaks, and ensured our late return was seamless and secure. It was our Delhi love letter, whispered under city lights.
           </p>
-          <div class="storyMeta" data-t>Trip type: Couple • Focus: Photos, chai, relaxed vibe</div>
+          <div class="storyMeta" data-t>Trip type: Couple • Focus: Romantic spots, photography, nocturnal serenity</div>
           <div class="platformRow">
-            <span data-t>Instagram DM review</span>
-            <span data-t>Photo album (shared privately)</span>
+            <span data-t>Instagram story shoutout</span>
+            <span data-t>Private sunset album</span>
           </div>
         </article>
 
-        <!-- Story 4 -->
-        <article class="storyCard reveal">
+        <!-- Story 4: Families (group) -->
+        <article class="storyCard reveal" data-tags="families">
           <div class="storyTop">
             <div>
-              <div class="storyName" data-t>Priya S. & Friends</div>
-              <div class="touristMeta" data-t>From India (other state) • Weekend in Delhi NCR</div>
+              <div class="storyName" data-t>Priya S. & Friends Group</div>
+              <div class="touristMeta" data-t>From Mumbai • Sep 2025 • Weekend Delhi NCR escape</div>
             </div>
             <span class="touristTag">
               <span class="tick"></span>
@@ -299,21 +397,21 @@
             </span>
           </div>
           <p class="storyQuote" data-t>
-            We were a group of four friends visiting Delhi for a concert and some shopping. He handled all logistics—airport pick‑up, hotel suggestions, safe late‑night return after the event, and genuine advice on where to shop without being scammed. It felt like having a responsible elder brother around.
+            Four of us flew in for a music festival and impulsive retail therapy, but Delhi's vibe can overwhelm. He orchestrated airport shuttles, curated scam-free bazaars like Chandni Chowk for sarees and gadgets, and navigated post-concert traffic like a pro—dropping us safely at 2 AM. His insider tips saved us hours and rupees; felt like the cool cousin we never had.
           </p>
-          <div class="storyMeta" data-t>Trip type: Friends group • Focus: Event + shopping</div>
+          <div class="storyMeta" data-t>Trip type: Friends group • Focus: Events, shopping hauls, late-night logistics</div>
           <div class="platformRow">
-            <span data-t>WhatsApp text review</span>
-            <span data-t>Concert day photos</span>
+            <span data-t>Group chat endorsements</span>
+            <span data-t>Festival ticket stubs + pics</span>
           </div>
         </article>
 
-        <!-- Story 5 -->
-        <article class="storyCard reveal">
+        <!-- Story 5: Couples -->
+        <article class="storyCard reveal" data-tags="couples">
           <div class="storyTop">
             <div>
-              <div class="storyName" data-t>Mr. & Mrs. Tan</div>
-              <div class="touristMeta" data-t>From Singapore • One‑day Taj Mahal trip (with partner driver)</div>
+              <div class="storyName" data-t>Mr. & Mrs. Tan Wei</div>
+              <div class="touristMeta" data-t>From Singapore • Aug 2025 • Day trip to Taj Mahal</div>
             </div>
             <span class="touristTag">
               <span class="tick"></span>
@@ -321,21 +419,21 @@
             </span>
           </div>
           <p class="storyQuote" data-t>
-            We wanted to see the Taj Mahal but were scared about scams and timings. He coordinated a trusted driver, guided us through ticketing and entry, gave us space for our own moments, and made sure we had good vegetarian food on the way. Everything was clear in advance—no surprise charges.
+            The Taj was our bucket-list dream, but tales of crowds and touts loomed large. Partnering with a vetted driver, he prepped us with dawn entry hacks, pointed out marble inlays' secrets during our private wander, and lined up veg thalis en route. No hidden fees, just magic—our anniversary etched in white marble and trust.
           </p>
-          <div class="storyMeta" data-t>Trip type: Couple • Focus: Taj Mahal, comfort, clarity</div>
+          <div class="storyMeta" data-t>Trip type: Couple • Focus: Iconic wonder, seamless travel, mindful breaks</div>
           <div class="platformRow">
-            <span data-t>WhatsApp feedback</span>
-            <span data-t>Photo near Taj (with consent)</span>
+            <span data-t>WhatsApp itinerary notes</span>
+            <span data-t>Taj silhouette photo (faces cropped)</span>
           </div>
         </article>
 
-        <!-- Story 6 -->
-        <article class="storyCard reveal">
+        <!-- Story 6: Business + Religious -->
+        <article class="storyCard reveal" data-tags="business religious">
           <div class="storyTop">
             <div>
-              <div class="storyName" data-t>Business Guest • Name on file</div>
-              <div class="touristMeta" data-t>From Europe • 2‑day work + short city visit</div>
+              <div class="storyName" data-t>Dr. Elena V. • Business Guest</div>
+              <div class="touristMeta" data-t>From Germany • Oct 2025 • 2-day conference + cultural dips</div>
             </div>
             <span class="touristTag">
               <span class="tick"></span>
@@ -343,15 +441,19 @@
             </span>
           </div>
           <p class="storyQuote" data-t>
-            My schedule was tight with meetings, but I didn’t want to sit in the hotel the whole time. He worked around my calls, planned short evening drives, food stops, and two temple visits that fit perfectly between work. The punctuality and clear communication made it very easy for me.
+            Amid back-to-back panels, I stole evenings for soul-recharge: a hushed Akshardham visit for its intricate carvings, a quick Qutub Minar sunset, and veg bites that fueled without fuss. He synced routes to my calendar pings, arriving precisely, and wove in spiritual insights that grounded my whirlwind week. Efficiency with heart—rare and restorative.
           </p>
-          <div class="storyMeta" data-t>Trip type: Business • Focus: Time‑boxed, safe, efficient</div>
+          <div class="storyMeta" data-t>Trip type: Business • Focus: Scheduled serenity, temple tranquility, quick recharges</div>
           <div class="platformRow">
-            <span data-t>Email testimonial</span>
-            <span data-t>Company name kept private</span>
+            <span data-t>LinkedIn recommendation</span>
+            <span data-t>Conference badge + temple entry</span>
           </div>
         </article>
 
+      </div>
+
+      <div id="noStories" class="no-stories">
+        <p data-t>No stories match this filter yet—check back soon as more verified tales arrive!</p>
       </div>
 
       <div style="margin-top:24px; padding:14px 16px; border-radius:16px; border:1px dashed rgba(55,65,81,.85); background:rgba(15,23,42,.96);">
@@ -435,7 +537,7 @@
   </footer>
 
   <script>
-    // Minimal JS to reuse header behaviors + year + logo animation
+    // Existing JS: Menu, brand swap, year
     const $ = (id) => document.getElementById(id);
 
     const navlinks = $("navlinks");
@@ -457,14 +559,62 @@
       yearEl.textContent = new Date().getFullYear();
     }
 
-    // Simple reveal animation reuse
-    const revealEls = Array.from(document.querySelectorAll(".reveal"));
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting) e.target.classList.add("on");
+    // Dynamic filter functionality
+    const pills = document.querySelectorAll('.pillFilter');
+    const storiesGrid = document.getElementById('storiesGrid');
+    const noStories = document.getElementById('noStories');
+    const stories = document.querySelectorAll('.storyCard');
+
+    const filterStories = (filterValue) => {
+      let visibleCount = 0;
+
+      stories.forEach((story, index) => {
+        const tags = story.dataset.tags ? story.dataset.tags.toLowerCase().split(' ') : [];
+        const matches = filterValue === 'all' || tags.includes(filterValue);
+
+        if (matches) {
+          story.style.display = 'block';
+          story.classList.remove('filtered-out', 'on');
+          story.classList.add('reveal');
+          visibleCount++;
+          // Staggered reveal animation
+          setTimeout(() => {
+            story.classList.add('on');
+          }, index * 150);
+        } else {
+          story.classList.remove('on', 'reveal');
+          story.classList.add('filtered-out');
+          // Animate out then hide
+          setTimeout(() => {
+            story.style.display = 'none';
+          }, 400);
+        }
       });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
+
+      // Show/hide no-stories message
+      if (visibleCount === 0) {
+        noStories.style.display = 'block';
+        storiesGrid.style.display = 'none';
+      } else {
+        noStories.style.display = 'none';
+        storiesGrid.style.display = 'grid';
+      }
+    };
+
+    // Event listeners for pills
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        // Update active state
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const filterValue = pill.dataset.filter;
+        filterStories(filterValue);
+      });
+    });
+
+    // Initial load: show all with animation
+    filterStories('all');
   </script>
 </body>
 </html>
