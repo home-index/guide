@@ -343,6 +343,118 @@ $("translateBtn").addEventListener("click", async () => {
   await translatePage(target);
 });
 
+// ====== Updated Date Picker: Calendar stays open until a date is selected
+    document.addEventListener('DOMContentLoaded', function() {
+      const bookedDates = ['2025-12-26', '2025-12-27', '2025-12-31', '2026-01-01', '2026-01-02'];
+
+      function isBooked(dateStr) {
+        return bookedDates.includes(dateStr);
+      }
+
+      function createCalendar(containerId, displayId, hiddenId) {
+        const container = document.getElementById(containerId);
+        const displayInput = document.getElementById(displayId);
+        const hiddenInput = document.getElementById(hiddenId);
+
+        let currentMonth = new Date();
+        currentMonth.setDate(1);
+
+        function generateCalendar() {
+          const year = currentMonth.getFullYear();
+          const month = currentMonth.getMonth();
+          const today = new Date();
+          today.setHours(0,0,0,0);
+
+          container.innerHTML = `
+            <div class="cal-header">
+              <button class="cal-nav-btn" id="prev${containerId}">&lt;</button>
+              <h4>${currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h4>
+              <button class="cal-nav-btn" id="next${containerId}">&gt;</button>
+            </div>
+            <div class="cal-grid">
+              ${['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => `<div class="cal-day-header">${d}</div>`).join('')}
+            </div>
+            <div class="legend">
+              <div class="legend-item"><div class="legend-color avail"></div><span>Available</span></div>
+              <div class="legend-item"><div class="legend-color booked"></div><span>Booked</span></div>
+            </div>
+          `;
+
+          const grid = container.querySelector('.cal-grid');
+          const firstDay = new Date(year, month, 1).getDay();
+          const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+          for (let i = 0; i < firstDay; i++) {
+            grid.insertAdjacentHTML('beforeend', '<div class="cal-day"></div>');
+          }
+
+          for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(year, month, day);
+            const dateStr = date.toISOString().split('T')[0];
+            const isToday = date.getTime() === today.getTime();
+            const isPast = date < today;
+            const booked = isBooked(dateStr);
+
+            const dayEl = document.createElement('div');
+            dayEl.className = 'cal-day';
+            dayEl.textContent = day;
+
+            if (isPast) dayEl.classList.add('past');
+            else if (booked) dayEl.classList.add('booked');
+            else dayEl.classList.add('available');
+
+            if (isToday) dayEl.classList.add('today');
+
+            if (!isPast && !booked) {
+              dayEl.addEventListener('click', () => {
+                hiddenInput.value = dateStr;
+                displayInput.value = date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                container.classList.remove('show'); // Hide only after selecting a date
+                container.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
+                dayEl.classList.add('selected');
+              });
+            }
+
+            grid.appendChild(dayEl);
+          }
+
+          // Navigation buttons - clicking them does NOT close the calendar
+          document.getElementById(`prev${containerId}`).addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentMonth.setMonth(currentMonth.getMonth() - 1);
+            generateCalendar();
+          });
+          document.getElementById(`next${containerId}`).addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+            generateCalendar();
+          });
+        }
+
+        generateCalendar();
+
+        // Open calendar on input click
+        displayInput.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
+          container.classList.add('show'); // Force open this one
+        });
+
+        // Prevent calendar from closing when clicking inside it
+        container.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+
+      createCalendar('fromCalendar', 'fromDateDisplay', 'fromDate');
+      createCalendar('toCalendar', 'toDateDisplay', 'toDate');
+
+      // Only close calendars when clicking outside (not inside calendar or input)
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
+      });
+    });
+
 // ====== Boot
 (async function init(){
   $("year").textContent = new Date().getFullYear();
