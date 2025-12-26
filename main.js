@@ -330,7 +330,7 @@ $("emailBtn").addEventListener("click", () => {
     "Please reply with available options, a transparent total cost, and the next steps.",
     "",
     "Thank you."
-  ].filter(line => line !== ""); Remove empty lines
+  ].filter(line => line !== ""); // Remove empty lines
 
   const body = encodeURIComponent(bodyLines.join("\n"));
   const mailto = `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`;
