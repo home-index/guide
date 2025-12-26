@@ -827,7 +827,7 @@
         </div>
       </div>
 
-      <!-- Transparent Rates -->
+      <!-- TRANSPARENT RATE -->
       <div class="card reveal" style="margin-bottom:14px;">
         <div class="rectInner" style="padding:0;">
           <div class="miniTitle" data-t>Transparent & Affordable Rates</div>
@@ -845,7 +845,7 @@
         </div>
       </div>
 
-            <div class="card reveal">
+      <div class="card reveal">
         <div class="formGrid">
           <div class="field">
             <label data-t>Your Name</label>
@@ -857,9 +857,25 @@
             <input id="contactField" placeholder="+91… (preferred) or your email" />
           </div>
 
-          <div class="field">
-            <label data-t>Arrival / Preferred Date</label>
-            <input id="date" type="date" />
+          <!-- Date Pickers -->
+          <div class="date-picker-wrapper">
+            <div class="date-field">
+              <label data-t>Arrival / Start Date</label>
+              <input type="text" class="date-input" id="fromDateDisplay" readonly placeholder="Choose start date" />
+              <input type="hidden" id="fromDate" />
+              <div class="date-calendar" id="fromCalendar"></div>
+            </div>
+
+            <div class="date-field">
+              <label data-t>Till Date (For Multi-day)</label>
+              <input type="text" class="date-input" id="toDateDisplay" readonly placeholder="Choose end date" />
+              <input type="hidden" id="toDate" />
+              <div class="date-calendar" id="toCalendar"></div>
+            </div>
+          </div>
+
+          <div class="availability-note">
+            Click on the date fields to view availability • Green = Available • Red = Booked
           </div>
 
           <div class="field">
@@ -937,18 +953,8 @@
 
         <div class="formActions">
           <button class="btn btnPrimary" id="bookingBtn" data-t>Send Details on WhatsApp</button>
-
           <button class="btn btnGhost" id="emailBtn" data-t>Send Details by Email</button>
-
-          <a class="btn btnGhost"
-             id="rateCardBtn"
-             href="assets/atithi-devo-bhavah-rate-card.pdf"
-             target="_blank"
-             rel="noopener"
-             data-t>
-            View Detailed Rate Card (PDF)
-          </a>
-
+          <a class="btn btnGhost" id="rateCardBtn" href="assets/atithi-devo-bhavah-rate-card.pdf" target="_blank" rel="noopener" data-t>View Detailed Rate Card (PDF)</a>
           <button class="btn btnGhost" id="translateBtn" data-t>Auto-Translate Page</button>
           <span class="miniTitle" id="translateState">—</span>
           <span class="miniTitle" style="color:rgba(148,163,184,.86);" data-t>
@@ -956,7 +962,6 @@
           </span>
         </div>
       </div>
-
     </section>
 
     <!-- CONTACT + MAP -->
