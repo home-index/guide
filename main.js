@@ -209,7 +209,8 @@ async function translatePage(target){
 $("bookingBtn").addEventListener("click", () => {
   const name = $("name").value.trim();
   const contact = $("contactField").value.trim();
-  const date = $("date").value;
+  const fromDate = $("fromDate").value;
+  const toDate = $("toDate").value;
   const time = $("time").value;
   const ratePlan = $("ratePlan").value;
   const type = $("type").value;
@@ -219,11 +220,22 @@ $("bookingBtn").addEventListener("click", () => {
   const city = $("cityField").value.trim();
   const msg = $("msg").value.trim();
 
-  if(!name || !contact || !date){
-    alert("Please fill Name, Contact, and Arrival / Preferred Date.");
+  // Validation
+  if(!name || !contact || !fromDate){
+    alert("Please fill Name, Contact, and Arrival / Start Date.");
     return;
   }
 
+  // Format dates for readable message
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "Not specified";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
+  const fromDateFormatted = formatDate(fromDate);
+  const toDateFormatted = formatDate(toDate);
+  
   const lines = [
     "ATITHI DEVO BHAVAH - Travel Guide Booking Request",
     "",
@@ -237,7 +249,8 @@ $("bookingBtn").addEventListener("click", () => {
     "",
     "Trip Plan",
     "----------------------",
-    "Arrival / Preferred Date: " + date,
+    "Arrival / Start Date: " + fromDateFormatted,
+    (toDate ? "Till Date: " + toDateFormatted : ""),
     "Preferred Time: " + (time || "--:--"),
     "Tour Duration / Rate Plan: " + ratePlan,
     "Travel Type / Group Size: " + type,
@@ -249,7 +262,7 @@ $("bookingBtn").addEventListener("click", () => {
     "I may share my Government ID / Passport copy separately on WhatsApp or email if needed.",
     "",
     "Please share available options, transparent total cost, and next steps."
-  ];
+  ].filter(line => line !== ""); // Remove empty lines (like when no till date)
 
   const text = encodeURIComponent(lines.join("\n"));
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
@@ -260,7 +273,8 @@ $("bookingBtn").addEventListener("click", () => {
 $("emailBtn").addEventListener("click", () => {
   const name = $("name").value.trim();
   const contact = $("contactField").value.trim();
-  const date = $("date").value;
+  const fromDate = $("fromDate").value;
+  const toDate = $("toDate").value;
   const time = $("time").value;
   const ratePlan = $("ratePlan").value;
   const type = $("type").value;
@@ -270,10 +284,20 @@ $("emailBtn").addEventListener("click", () => {
   const city = $("cityField").value.trim();
   const msg = $("msg").value.trim();
 
-  if(!name || !contact || !date){
-    alert("Please fill Name, Contact, and Arrival / Preferred Date before sending email.");
+  // Validation
+  if(!name || !contact || !fromDate){
+    alert("Please fill Name, Contact, and Arrival / Start Date before sending email.");
     return;
   }
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "Not specified";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
+  const fromDateFormatted = formatDate(fromDate);
+  const toDateFormatted = formatDate(toDate);
 
   const subject = encodeURIComponent(`Travel Guide Inquiry - ${name} - ${date}`);
   const bodyLines = [
@@ -291,7 +315,8 @@ $("emailBtn").addEventListener("click", () => {
     "",
     "Trip Plan",
     "----------------------",
-    "Arrival / Preferred Date: " + date,
+    "Arrival / Start Date: " + fromDateFormatted,
+    (toDate ? "Till Date: " + toDateFormatted : ""),
     "Preferred Time: " + (time || "--:--"),
     "Tour Duration / Rate Plan: " + ratePlan,
     "Travel Type / Group Size: " + type,
@@ -305,7 +330,7 @@ $("emailBtn").addEventListener("click", () => {
     "Please reply with available options, a transparent total cost, and the next steps.",
     "",
     "Thank you."
-  ];
+  ].filter(line => line !== ""); Remove empty lines
 
   const body = encodeURIComponent(bodyLines.join("\n"));
   const mailto = `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`;
