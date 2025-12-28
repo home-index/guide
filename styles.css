@@ -1278,3 +1278,56 @@ footer::before{
     align-items:flex-start;
   }
 }
+
+.socialIcons {
+  margin-top: 24px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.socialIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.socialIcon svg {
+  width: 26px;
+  height: 26px;
+  fill: #ffffff;
+  transition: transform 0.3s ease;
+}
+
+.socialIcon:hover {
+  transform: translateY(-8px) scale(1.1);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.socialIcon:hover svg {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* Brand-specific hover colors */
+.socialIcon.whatsapp:hover { background: #25D366; }
+.socialIcon.instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.socialIcon.email:hover { background: #4285F4; }
+.socialIcon.google:hover { background: #DB4437; }
+.socialIcon.vk:hover { background: #4680C2; }
+.socialIcon.odnoklassniki:hover { background: #F4731C; }
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .socialIcons { justify-content: center; }
+  .socialIcon { width: 44px; height: 44px; }
+  .socialIcon svg { width: 24px; height: 24px; }
+}
