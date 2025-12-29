@@ -3,7 +3,7 @@
     🌟 Website: [Atithi Devo Bhavah] - Your Trusted Indian Friend/Brother & Safe Travel Guide 🌟
     
     Version: 2.1 – Fully Responsive & Optimized (December 2025)
-    Created: July 12, 2014
+    Created: July 12, 2025
     Last Updated: December 2025
     
     Developer & Designer:
@@ -815,7 +815,6 @@
       </div>
     </section>
 
-
     <!-- BOOKING -->
     <section id="booking" class="block">
       <div class="sectionHead">
@@ -826,12 +825,12 @@
           </p>
         </div>
       </div>
-
       <!-- TRANSPARENT RATE -->
       <div class="card reveal" style="margin-bottom:14px;">
         <div class="rectInner" style="padding:0;">
           <div class="miniTitle" data-t>Transparent & Affordable Rates</div>
           <div class="bigLine" style="margin-top:6px; flex-wrap:wrap;">
+            <span class="chip" data-t>Quarter (1-2 hours) : ₹1,000 - ₹1,200</span>
             <span class="chip" data-t>Half Day (4–5 hours): ₹1,800 – ₹2,500</span>
             <span class="chip" data-t>Full Day (8–10 hours): ₹3,000 – ₹4,500</span>
             <span class="chip" data-t>Evening Tour (4–5 hours): ₹3,000</span>
@@ -844,19 +843,16 @@
           </div>
         </div>
       </div>
-
       <div class="card reveal">
         <div class="formGrid">
           <div class="field">
             <label data-t>Your Name</label>
             <input id="name" placeholder="Full name as per passport / ID" />
           </div>
-
           <div class="field">
             <label data-t>Contact (WhatsApp / Email)</label>
             <input id="contactField" placeholder="+91… (preferred) or your email" />
           </div>
-
           <!-- Date Pickers -->
           <div class="date-picker-wrapper">
             <div class="date-field">
@@ -865,7 +861,6 @@
               <input type="hidden" id="fromDate" />
               <div class="date-calendar" id="fromCalendar"></div>
             </div>
-
             <div class="date-field">
               <label data-t>Till Date (For Multi-day)</label>
               <input type="text" class="date-input" id="toDateDisplay" readonly placeholder="Choose end date" />
@@ -873,19 +868,17 @@
               <div class="date-calendar" id="toCalendar"></div>
             </div>
           </div>
-
           <div class="availability-note">
             Click on the date fields to view availability • Green = Available • Red = Booked
           </div>
-
           <div class="field">
             <label data-t>Preferred Time</label>
             <input id="time" type="time" placeholder="--:--" />
           </div>
-
           <div class="field">
             <label data-t>Tour Duration (Rate List)</label>
             <select id="ratePlan">
+              <option value="Quarter (1-2 hours) • ₹1,000 – ₹1,200">Quarter (1-2 Hours) – ₹1,000 – ₹1,200</option>
               <option value="Half Day (4–5 hours) • ₹1,800 – ₹2,500">Half Day (4–5 Hours) – ₹1,800 – ₹2,500</option>
               <option value="Full Day (8–10 hours) • ₹3,000 – ₹4,500">Full Day (8–10 Hours) – ₹3,000 – ₹4,500</option>
               <option value="Evening Tour (4–5 hours) • ₹3,000">Evening Tour (4–5 Hours) – ₹3,000</option>
@@ -894,10 +887,10 @@
               <option value="Custom / Taj Mahal Trip • by discussion">Custom / Taj Mahal Trip – by discussion</option>
             </select>
           </div>
-
           <div class="field">
             <label data-t>Travel Type / Group Size</label>
             <select id="type">
+              <option readonly placeholder="Select Type/Group">Select Type/Group</option>
               <option>Solo</option>
               <option>Single</option>
               <option>Couple</option>
@@ -906,10 +899,10 @@
               <option>Business / Work trip</option>
             </select>
           </div>
-
           <div class="field">
             <label data-t>Visit Reason</label>
             <select id="visitReason">
+              <option readonly placeholder="Select Reason">Select Reason</option>
               <option>Explore the cities or places</option>
               <option>As a tourist</option>
               <option>Explore culture</option>
@@ -921,22 +914,18 @@
               <option>Other</option>
             </select>
           </div>
-
           <div class="field">
             <label data-t>Age</label>
             <input id="age" type="number" min="18" max="100" placeholder="Your age" />
           </div>
-
           <div class="field">
             <label data-t>Country</label>
             <input id="countryField" placeholder="Your country" />
           </div>
-
           <div class="field">
             <label data-t>City</label>
             <input id="cityField" placeholder="Your city" />
           </div>
-
           <div class="field" style="grid-column:1 / -1;">
             <label data-t>Upload Government ID + Passport Copy (optional)</label>
             <input id="idUpload" type="file" multiple />
@@ -944,13 +933,11 @@
               You can also send your ID and passport copy later directly on WhatsApp or email if you prefer.
             </span>
           </div>
-
           <div class="field" style="grid-column: 1 / -1;">
             <label data-t>Your Interests / Message / What do you want this day to feel like?</label>
             <textarea id="msg" placeholder="Example: peaceful temples in the morning, local veg food, Old Delhi walk, some shopping, sunset photos at a monument, back to hotel by 9pm."></textarea>
           </div>
         </div>
-
         <div class="formActions">
           <button class="btn btnPrimary" id="bookingBtn" data-t>Send Details on WhatsApp</button>
           <button class="btn btnGhost" id="emailBtn" data-t>Send Details by Email</button>
