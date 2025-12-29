@@ -205,37 +205,66 @@ async function translatePage(target){
   $("translateState").textContent = `Translated to: ${target.toUpperCase()} (auto)`;
 }
 
-// ====== Booking button -> WhatsApp click-to-chat
-$("bookingBtn").addEventListener("click", () => {
-  const name = $("name").value.trim();
-  const contact = $("contactField").value.trim();
-  const fromDate = $("fromDate").value;
-  const toDate = $("toDate").value;
-  const time = $("time").value;
-  const ratePlan = $("ratePlan").value;
-  const type = $("type").value;
-  const visitReason = $("visitReason").value;
-  const age = $("age").value.trim();
-  const country = $("countryField").value.trim();
-  const city = $("cityField").value.trim();
-  const msg = $("msg").value.trim();
+// ====== Global Variables (Add these for backend integration)
+const BOOKED_XML_URL = 'booked-dates.xml'; // Path to your XML file on the server
+let bookedDates = []; // Will be populated from XML
 
+// ====== Function to Load Booked Dates from XML (Real Backend Integration)
+async function loadBookedDates() {
+  try {
+    const response = await fetch(BOOKED_XML_URL);
+    if (!response.ok) {
+      console.warn('XML file not found or inaccessible. Falling back to demo dates.');
+      // Fallback to demo dates if XML fails (for development)
+      bookedDates = ['2025-12-26', '2025-12-27', '2025-12-31', '2026-01-01', '2026-01-02'];
+      return;
+    }
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+    const dateElements = xmlDoc.getElementsByTagName('date');
+    bookedDates = Array.from(dateElements).map(dateEl => dateEl.textContent.trim());
+    console.log('Loaded booked dates:', bookedDates);
+  } catch (error) {
+    console.error('Error loading XML:', error);
+    // Fallback
+    bookedDates = ['2025-12-26', '2025-12-27', '2025-12-31', '2026-01-01', '2026-01-02'];
+  }
+}
+
+// ====== Function to Check if Date is Booked
+function isBooked(dateStr) {
+  return bookedDates.includes(dateStr);
+}
+
+// ====== Booking button -> WhatsApp click-to-chat (Unchanged, but now integrates with real dates)
+document.getElementById("bookingBtn").addEventListener("click", () => {
+  const name = document.getElementById("name").value.trim();
+  const contact = document.getElementById("contactField").value.trim();
+  const fromDate = document.getElementById("fromDate").value;
+  const toDate = document.getElementById("toDate").value;
+  const time = document.getElementById("time").value;
+  const ratePlan = document.getElementById("ratePlan").value;
+  const type = document.getElementById("type").value;
+  const visitReason = document.getElementById("visitReason").value;
+  const age = document.getElementById("age").value.trim();
+  const country = document.getElementById("countryField").value.trim();
+  const city = document.getElementById("cityField").value.trim();
+  const msg = document.getElementById("msg").value.trim();
   // Validation
   if(!name || !contact || !fromDate){
     alert("Please fill Name, Contact, and Arrival / Start Date.");
     return;
   }
-
   // Format dates for readable message
   const formatDate = (dateStr) => {
     if (!dateStr) return "Not specified";
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
   };
-
   const fromDateFormatted = formatDate(fromDate);
   const toDateFormatted = formatDate(toDate);
-  
+ 
   const lines = [
     "ATITHI DEVO BHAVAH - Travel Guide Booking Request",
     "",
@@ -263,42 +292,39 @@ $("bookingBtn").addEventListener("click", () => {
     "",
     "Please share available options, transparent total cost, and next steps."
   ].filter(line => line !== ""); // Remove empty lines (like when no till date)
-
   const text = encodeURIComponent(lines.join("\n"));
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
   window.open(url, "_blank");
+  // Optional: After sending, you could trigger a backend update via AJAX to mark tentative booking, but since confirmation is manual, update XML manually or via admin panel.
 });
 
-// ====== Booking button -> Email (mailto)
-$("emailBtn").addEventListener("click", () => {
-  const name = $("name").value.trim();
-  const contact = $("contactField").value.trim();
-  const fromDate = $("fromDate").value;
-  const toDate = $("toDate").value;
-  const time = $("time").value;
-  const ratePlan = $("ratePlan").value;
-  const type = $("type").value;
-  const visitReason = $("visitReason").value;
-  const age = $("age").value.trim();
-  const country = $("countryField").value.trim();
-  const city = $("cityField").value.trim();
-  const msg = $("msg").value.trim();
-
+// ====== Booking button -> Email (mailto) (Unchanged)
+document.getElementById("emailBtn").addEventListener("click", () => {
+  const name = document.getElementById("name").value.trim();
+  const contact = document.getElementById("contactField").value.trim();
+  const fromDate = document.getElementById("fromDate").value;
+  const toDate = document.getElementById("toDate").value;
+  const time = document.getElementById("time").value;
+  const ratePlan = document.getElementById("ratePlan").value;
+  const type = document.getElementById("type").value;
+  const visitReason = document.getElementById("visitReason").value;
+  const age = document.getElementById("age").value.trim();
+  const country = document.getElementById("countryField").value.trim();
+  const city = document.getElementById("cityField").value.trim();
+  const msg = document.getElementById("msg").value.trim();
   // Validation
   if(!name || !contact || !fromDate){
     alert("Please fill Name, Contact, and Arrival / Start Date before sending email.");
     return;
   }
-
   const formatDate = (dateStr) => {
     if (!dateStr) return "Not specified";
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
   };
-
   const fromDateFormatted = formatDate(fromDate);
   const toDateFormatted = formatDate(toDate);
-
+  const date = new Date().toISOString().split('T')[0]; // Current date for subject
   const subject = encodeURIComponent(`Travel Guide Inquiry - ${name} - ${date}`);
   const bodyLines = [
     "Namaste,",
@@ -331,10 +357,10 @@ $("emailBtn").addEventListener("click", () => {
     "",
     "Thank you."
   ].filter(line => line !== ""); // Remove empty lines
-
   const body = encodeURIComponent(bodyLines.join("\n"));
   const mailto = `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`;
   window.location.href = mailto;
+  // Similar to WhatsApp, manual confirmation updates XML.
 });
 
 // ====== Manual translate button
@@ -343,117 +369,122 @@ $("translateBtn").addEventListener("click", async () => {
   await translatePage(target);
 });
 
-// ====== Updated Date Picker: Calendar stays open until a date is selected
-    document.addEventListener('DOMContentLoaded', function() {
-      const bookedDates = ['2025-12-26', '2025-12-27', '2025-12-31', '2026-01-01', '2026-01-02'];
+// ====== Enhanced Date Picker: Calendar stays open until a date is selected, with XML integration
+document.addEventListener('DOMContentLoaded', async function() {
+  // Load booked dates on page load
+  await loadBookedDates();
 
-      function isBooked(dateStr) {
-        return bookedDates.includes(dateStr);
+  function createCalendar(containerId, displayId, hiddenId) {
+    const container = document.getElementById(containerId);
+    const displayInput = document.getElementById(displayId);
+    const hiddenInput = document.getElementById(hiddenId);
+    let currentMonth = new Date();
+    currentMonth.setDate(1);
+    function generateCalendar() {
+      const year = currentMonth.getFullYear();
+      const month = currentMonth.getMonth();
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      container.innerHTML = `
+        <div class="cal-header">
+          <button class="cal-nav-btn" id="prev${containerId}">&lt;</button>
+          <h4>${currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h4>
+          <button class="cal-nav-btn" id="next${containerId}">&gt;</button>
+        </div>
+        <div class="cal-grid">
+          ${['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => `<div class="cal-day-header">${d}</div>`).join('')}
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-color avail"></div><span>Available</span></div>
+          <div class="legend-item"><div class="legend-color booked"></div><span>Booked</span></div>
+        </div>
+      `;
+      const grid = container.querySelector('.cal-grid');
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      for (let i = 0; i < firstDay; i++) {
+        grid.insertAdjacentHTML('beforeend', '<div class="cal-day"></div>');
       }
-
-      function createCalendar(containerId, displayId, hiddenId) {
-        const container = document.getElementById(containerId);
-        const displayInput = document.getElementById(displayId);
-        const hiddenInput = document.getElementById(hiddenId);
-
-        let currentMonth = new Date();
-        currentMonth.setDate(1);
-
-        function generateCalendar() {
-          const year = currentMonth.getFullYear();
-          const month = currentMonth.getMonth();
-          const today = new Date();
-          today.setHours(0,0,0,0);
-
-          container.innerHTML = `
-            <div class="cal-header">
-              <button class="cal-nav-btn" id="prev${containerId}">&lt;</button>
-              <h4>${currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h4>
-              <button class="cal-nav-btn" id="next${containerId}">&gt;</button>
-            </div>
-            <div class="cal-grid">
-              ${['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => `<div class="cal-day-header">${d}</div>`).join('')}
-            </div>
-            <div class="legend">
-              <div class="legend-item"><div class="legend-color avail"></div><span>Available</span></div>
-              <div class="legend-item"><div class="legend-color booked"></div><span>Booked</span></div>
-            </div>
-          `;
-
-          const grid = container.querySelector('.cal-grid');
-          const firstDay = new Date(year, month, 1).getDay();
-          const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-          for (let i = 0; i < firstDay; i++) {
-            grid.insertAdjacentHTML('beforeend', '<div class="cal-day"></div>');
-          }
-
-          for (let day = 1; day <= daysInMonth; day++) {
-            const date = new Date(year, month, day);
-            const dateStr = date.toISOString().split('T')[0];
-            const isToday = date.getTime() === today.getTime();
-            const isPast = date < today;
-            const booked = isBooked(dateStr);
-
-            const dayEl = document.createElement('div');
-            dayEl.className = 'cal-day';
-            dayEl.textContent = day;
-
-            if (isPast) dayEl.classList.add('past');
-            else if (booked) dayEl.classList.add('booked');
-            else dayEl.classList.add('available');
-
-            if (isToday) dayEl.classList.add('today');
-
-            if (!isPast && !booked) {
-              dayEl.addEventListener('click', () => {
-                hiddenInput.value = dateStr;
-                displayInput.value = date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-                container.classList.remove('show'); // Hide only after selecting a date
-                container.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
-                dayEl.classList.add('selected');
-              });
-            }
-
-            grid.appendChild(dayEl);
-          }
-
-          // Navigation buttons - clicking them does NOT close the calendar
-          document.getElementById(`prev${containerId}`).addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentMonth.setMonth(currentMonth.getMonth() - 1);
-            generateCalendar();
-          });
-          document.getElementById(`next${containerId}`).addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentMonth.setMonth(currentMonth.getMonth() + 1);
-            generateCalendar();
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+        const dateStr = date.toISOString().split('T')[0];
+        const isToday = date.getTime() === today.getTime();
+        const isPast = date < today;
+        const booked = isBooked(dateStr); // Now uses dynamic bookedDates from XML
+        const dayEl = document.createElement('div');
+        dayEl.className = 'cal-day';
+        dayEl.textContent = day;
+        if (isPast) dayEl.classList.add('past');
+        else if (booked) dayEl.classList.add('booked');
+        else dayEl.classList.add('available');
+        if (isToday) dayEl.classList.add('today');
+        if (!isPast && !booked) {
+          dayEl.addEventListener('click', () => {
+            hiddenInput.value = dateStr;
+            displayInput.value = date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            container.classList.remove('show'); // Hide only after selecting a date
+            container.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
+            dayEl.classList.add('selected');
+            // Optional: Refresh booked dates after selection to check for conflicts
+            loadBookedDates().then(() => generateCalendar()); // Re-generate to reflect any changes
           });
         }
-
-        generateCalendar();
-
-        // Open calendar on input click
-        displayInput.addEventListener('click', (e) => {
-          e.stopPropagation();
-          document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
-          container.classList.add('show'); // Force open this one
-        });
-
-        // Prevent calendar from closing when clicking inside it
-        container.addEventListener('click', (e) => {
-          e.stopPropagation();
-        });
+        grid.appendChild(dayEl);
       }
-
-      createCalendar('fromCalendar', 'fromDateDisplay', 'fromDate');
-      createCalendar('toCalendar', 'toDateDisplay', 'toDate');
-
-      // Only close calendars when clicking outside (not inside calendar or input)
-      document.addEventListener('click', () => {
-        document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
+      // Navigation buttons - clicking them does NOT close the calendar
+      document.getElementById(`prev${containerId}`).addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentMonth.setMonth(currentMonth.getMonth() - 1);
+        generateCalendar();
       });
+      document.getElementById(`next${containerId}`).addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentMonth.setMonth(currentMonth.getMonth() + 1);
+        generateCalendar();
+      });
+    }
+    generateCalendar();
+    // Open calendar on input click
+    displayInput.addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
+      container.classList.add('show'); // Force open this one
     });
+    // Prevent calendar from closing when clicking inside it
+    container.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  }
+  createCalendar('fromCalendar', 'fromDateDisplay', 'fromDate');
+  createCalendar('toCalendar', 'toDateDisplay', 'toDate');
+  // Only close calendars when clicking outside (not inside calendar or input)
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
+  });
+
+  // For date range: If toDate is set, validate that range doesn't include booked dates (basic check)
+  document.getElementById('toDate').addEventListener('change', () => {
+    const from = new Date(document.getElementById('fromDate').value);
+    const to = new Date(document.getElementById('toDate').value);
+    if (from && to && to < from) {
+      alert('End date must be after start date.');
+      document.getElementById('toDate').value = '';
+    }
+    // Check for booked dates in range (for multi-day)
+    let hasBooked = false;
+    for (let d = new Date(from); d <= to; d.setDate(d.getDate() + 1)) {
+      const dateStr = d.toISOString().split('T')[0];
+      if (isBooked(dateStr)) {
+        hasBooked = true;
+        break;
+      }
+    }
+    if (hasBooked) {
+      alert('Selected date range includes booked dates. Please choose another range.');
+      // Optionally clear or adjust
+    }
+  });
+});
 
 // ====== Boot
 (async function init(){
