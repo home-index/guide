@@ -216,7 +216,7 @@ async function loadBookedDates() {
     if (!response.ok) {
       console.warn('XML file not found or inaccessible. Falling back to demo dates.');
       // Fallback to demo dates if XML fails (for development)
-      bookedDates = ['2025-12-26', '2025-12-27', '2025-12-31', '2026-01-01', '2026-01-02'];
+      bookedDates = ['2025-12-26', '2025-12-27', '2025-12-30', '2025-12-31', '2026-01-01', '2026-01-02'];
       return;
     }
     const xmlText = await response.text();
