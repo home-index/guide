@@ -205,85 +205,89 @@ async function translatePage(target){
   $("translateState").textContent = `Translated to: ${target.toUpperCase()} (auto)`;
 }
 
-// ====== Global Variables (Add these for backend integration)
-const BOOKED_XML_URL = 'booked-dates.xml'; // Path to your XML file on the server
-let bookedDates = []; // Will be populated from XML
+// ====== Configuration ======
+const BOOKED_XML_URL = 'booked-dates.xml'; // Update this path if your XML file is in a different location
 
-// ====== Function to Load Booked Dates from XML (Real Backend Integration)
+let bookedDates = [];
+
+// ====== Load Booked Dates from XML (with cache busting to always get latest) ======
 async function loadBookedDates() {
   try {
-    const response = await fetch(BOOKED_XML_URL);
-    if (!response.ok) {
-      console.warn('XML file not found or inaccessible. Falling back to demo dates.');
-      // Fallback to demo dates if XML fails (for development)
-      bookedDates = ['2025-12-26', '2025-12-27', '2025-12-30', '2025-12-31', '2026-01-04', '2026-01-05'];
-      return;
-    }
+    const response = await fetch(`${BOOKED_XML_URL}?t=${Date.now()}`);
+    if (!response.ok) throw new Error('XML file not found or inaccessible');
+
     const xmlText = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-    const dateElements = xmlDoc.getElementsByTagName('date');
-    bookedDates = Array.from(dateElements).map(dateEl => dateEl.textContent.trim());
-    console.log('Loaded booked dates:', bookedDates);
+
+    const dateNodes = xmlDoc.querySelectorAll('date');
+    bookedDates = Array.from(dateNodes)
+      .map(node => node.textContent.trim())
+      .filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date)); // Strict YYYY-MM-DD validation
+
+    console.log('✅ Successfully loaded booked dates:', bookedDates);
   } catch (error) {
-    console.error('Error loading XML:', error);
-    // Fallback
-    bookedDates = ['2025-12-26', '2025-12-27', '2025-12-31', '2026-01-01', '2026-01-02'];
+    console.warn('⚠️ Failed to load booked-dates.xml. Using fallback dates.', error);
+    // Fallback dates (safe for demo; you can remove or empty this array in production)
+    bookedDates = ['2025-12-31', '2026-01-01'];
   }
 }
 
-// ====== Function to Check if Date is Booked
+// ====== Strict check if a date is booked ======
 function isBooked(dateStr) {
   return bookedDates.includes(dateStr);
 }
 
-// ====== Booking button -> WhatsApp click-to-chat (Unchanged, but now integrates with real dates)
-document.getElementById("bookingBtn").addEventListener("click", () => {
-  const name = document.getElementById("name").value.trim();
-  const contact = document.getElementById("contactField").value.trim();
-  const fromDate = document.getElementById("fromDate").value;
-  const toDate = document.getElementById("toDate").value;
-  const time = document.getElementById("time").value;
-  const ratePlan = document.getElementById("ratePlan").value;
-  const type = document.getElementById("type").value;
-  const visitReason = document.getElementById("visitReason").value;
-  const age = document.getElementById("age").value.trim();
-  const country = document.getElementById("countryField").value.trim();
-  const city = document.getElementById("cityField").value.trim();
-  const msg = document.getElementById("msg").value.trim();
-  // Validation
-  if(!name || !contact || !fromDate){
-    alert("Please fill Name, Contact, and Arrival / Start Date.");
+// ====== WhatsApp Send Details Button ======
+document.getElementById('bookingBtn').addEventListener('click', () => {
+  const name = document.getElementById('name').value.trim();
+  const contact = document.getElementById('contactField').value.trim();
+  const fromDate = document.getElementById('fromDate').value;
+  const toDate = document.getElementById('toDate').value;
+  const time = document.getElementById('time').value;
+  const ratePlan = document.getElementById('ratePlan').value;
+  const type = document.getElementById('type').value;
+  const visitReason = document.getElementById('visitReason').value;
+  const age = document.getElementById('age').value.trim();
+  const country = document.getElementById('countryField').value.trim();
+  const city = document.getElementById('cityField').value.trim();
+  const msg = document.getElementById('msg').value.trim();
+
+  // Basic validation
+  if (!name || !contact || !fromDate) {
+    alert('Please fill in Your Name, Contact, and Arrival / Start Date.');
     return;
   }
-  // Format dates for readable message
+
+  // Safe date formatting (using noon to avoid timezone offset issues)
   const formatDate = (dateStr) => {
-    if (!dateStr) return "Not specified";
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+    if (!dateStr) return 'Not specified';
+    const date = new Date(dateStr + 'T12:00:00'); // Forces consistent timezone handling
+    return date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
   };
-  const fromDateFormatted = formatDate(fromDate);
-  const toDateFormatted = formatDate(toDate);
- 
-  const lines = [
+
+  const fromFormatted = formatDate(fromDate);
+  const toFormatted = toDate ? formatDate(toDate) : '';
+
+  const messageLines = [
     "ATITHI DEVO BHAVAH - Travel Guide Booking Request",
     "",
     "Guest Details",
     "----------------------",
-    "Name: " + name,
-    "Contact: " + contact,
-    "Age: " + (age || "Not specified"),
-    "Country: " + (country || "Not specified"),
-    "City: " + (city || "Not specified"),
+    `Name: ${name}`,
+    `Contact: ${contact}`,
+    `Age: ${age || 'Not specified'}`,
+    `Country: ${country || 'Not specified'}`,
+    `City: ${city || 'Not specified'}`,
     "",
     "Trip Plan",
     "----------------------",
-    "Arrival / Start Date: " + fromDateFormatted,
-    (toDate ? "Till Date: " + toDateFormatted : ""),
-    "Preferred Time: " + (time || "--:--"),
-    "Tour Duration / Rate Plan: " + ratePlan,
-    "Travel Type / Group Size: " + type,
-    "Visit Reason: " + visitReason,
+    `Arrival / Start Date: ${fromFormatted}`,
+    toDate ? `Till Date: ${toFormatted}` : '',
+    `Preferred Time: ${time || '--:--'}`,
+    `Tour Duration / Rate Plan: ${ratePlan}`,
+    `Travel Type / Group Size: ${type}`,
+    `Visit Reason: ${visitReason}`,
     "",
     "Your Interests / Message:",
     msg || "(Not specified)",
@@ -291,41 +295,36 @@ document.getElementById("bookingBtn").addEventListener("click", () => {
     "I may share my Government ID / Passport copy separately on WhatsApp or email if needed.",
     "",
     "Please share available options, transparent total cost, and next steps."
-  ].filter(line => line !== ""); // Remove empty lines (like when no till date)
-  const text = encodeURIComponent(lines.join("\n"));
+  ].filter(line => line !== ""); // Remove empty lines
+
+  const text = encodeURIComponent(messageLines.join("\n"));
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
-  window.open(url, "_blank");
-  // Optional: After sending, you could trigger a backend update via AJAX to mark tentative booking, but since confirmation is manual, update XML manually or via admin panel.
+  window.open(url, '_blank');
 });
 
-// ====== Booking button -> Email (mailto) (Unchanged)
-document.getElementById("emailBtn").addEventListener("click", () => {
-  const name = document.getElementById("name").value.trim();
-  const contact = document.getElementById("contactField").value.trim();
-  const fromDate = document.getElementById("fromDate").value;
-  const toDate = document.getElementById("toDate").value;
-  const time = document.getElementById("time").value;
-  const ratePlan = document.getElementById("ratePlan").value;
-  const type = document.getElementById("type").value;
-  const visitReason = document.getElementById("visitReason").value;
-  const age = document.getElementById("age").value.trim();
-  const country = document.getElementById("countryField").value.trim();
-  const city = document.getElementById("cityField").value.trim();
-  const msg = document.getElementById("msg").value.trim();
-  // Validation
-  if(!name || !contact || !fromDate){
-    alert("Please fill Name, Contact, and Arrival / Start Date before sending email.");
+// ====== Email Send Details Button ======
+document.getElementById('emailBtn').addEventListener('click', () => {
+  const name = document.getElementById('name').value.trim();
+  const contact = document.getElementById('contactField').value.trim();
+  const fromDate = document.getElementById('fromDate').value;
+
+  if (!name || !contact || !fromDate) {
+    alert('Please fill Name, Contact, and Arrival / Start Date before sending email.');
     return;
   }
+
   const formatDate = (dateStr) => {
-    if (!dateStr) return "Not specified";
-    const date = new Date(dateStr);
+    if (!dateStr) return 'Not specified';
+    const date = new Date(dateStr + 'T12:00:00');
     return date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
   };
-  const fromDateFormatted = formatDate(fromDate);
-  const toDateFormatted = formatDate(toDate);
-  const date = new Date().toISOString().split('T')[0]; // Current date for subject
-  const subject = encodeURIComponent(`Travel Guide Inquiry - ${name} - ${date}`);
+
+  const fromFormatted = formatDate(fromDate);
+  const toFormatted = document.getElementById('toDate').value ? formatDate(document.getElementById('toDate').value) : '';
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+  const subject = encodeURIComponent(`Travel Guide Inquiry - ${name} - ${today}`);
+
   const bodyLines = [
     "Namaste,",
     "",
@@ -333,34 +332,33 @@ document.getElementById("emailBtn").addEventListener("click", () => {
     "",
     "Guest Details",
     "----------------------",
-    "Name: " + name,
-    "Contact (WhatsApp / Email): " + contact,
-    "Age: " + (age || "Not specified"),
-    "Country: " + (country || "Not specified"),
-    "City: " + (city || "Not specified"),
+    `Name: ${name}`,
+    `Contact (WhatsApp / Email): ${contact}`,
+    `Age: ${document.getElementById('age').value.trim() || 'Not specified'}`,
+    `Country: ${document.getElementById('countryField').value.trim() || 'Not specified'}`,
+    `City: ${document.getElementById('cityField').value.trim() || 'Not specified'}`,
     "",
     "Trip Plan",
     "----------------------",
-    "Arrival / Start Date: " + fromDateFormatted,
-    (toDate ? "Till Date: " + toDateFormatted : ""),
-    "Preferred Time: " + (time || "--:--"),
-    "Tour Duration / Rate Plan: " + ratePlan,
-    "Travel Type / Group Size: " + type,
-    "Visit Reason: " + visitReason,
+    `Arrival / Start Date: ${fromFormatted}`,
+    toFormatted ? `Till Date: ${toFormatted}` : '',
+    `Preferred Time: ${document.getElementById('time').value || '--:--'}`,
+    `Tour Duration / Rate Plan: ${document.getElementById('ratePlan').value}`,
+    `Travel Type / Group Size: ${document.getElementById('type').value}`,
+    `Visit Reason: ${document.getElementById('visitReason').value}`,
     "",
     "Your Interests / Message:",
-    msg || "(Not specified)",
+    document.getElementById('msg').value.trim() || "(Not specified)",
     "",
     "I can share my Government ID / Passport copy as an attachment in reply to your email if required.",
     "",
     "Please reply with available options, a transparent total cost, and the next steps.",
     "",
     "Thank you."
-  ].filter(line => line !== ""); // Remove empty lines
+  ].filter(line => line !== "");
+
   const body = encodeURIComponent(bodyLines.join("\n"));
-  const mailto = `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`;
-  window.location.href = mailto;
-  // Similar to WhatsApp, manual confirmation updates XML.
+  window.location.href = `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`;
 });
 
 // ====== Manual translate button
@@ -369,27 +367,33 @@ $("translateBtn").addEventListener("click", async () => {
   await translatePage(target);
 });
 
-// ====== Enhanced Date Picker: Calendar stays open until a date is selected, with XML integration
-document.addEventListener('DOMContentLoaded', async function() {
-  // Load booked dates on page load
-  await loadBookedDates();
+
+// ====== Enhanced Responsive Date Picker with Real-Time XML Availability ======
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadBookedDates(); // Pre-load on page start
 
   function createCalendar(containerId, displayId, hiddenId) {
     const container = document.getElementById(containerId);
     const displayInput = document.getElementById(displayId);
     const hiddenInput = document.getElementById(hiddenId);
+
     let currentMonth = new Date();
-    currentMonth.setDate(1);
-    function generateCalendar() {
+    currentMonth.setDate(1); // Start at first day of month
+
+    async function renderCalendar() {
+      await loadBookedDates(); // Always fetch latest booked dates
+
       const year = currentMonth.getFullYear();
       const month = currentMonth.getMonth();
       const today = new Date();
-      today.setHours(0,0,0,0);
+      today.setHours(0, 0, 0, 0);
+
+      // Clear and rebuild calendar HTML
       container.innerHTML = `
         <div class="cal-header">
-          <button class="cal-nav-btn" id="prev${containerId}">&lt;</button>
+          <button class="cal-nav-btn" id="prev${containerId}">‹</button>
           <h4>${currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h4>
-          <button class="cal-nav-btn" id="next${containerId}">&gt;</button>
+          <button class="cal-nav-btn" id="next${containerId}">›</button>
         </div>
         <div class="cal-grid">
           ${['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => `<div class="cal-day-header">${d}</div>`).join('')}
@@ -399,89 +403,131 @@ document.addEventListener('DOMContentLoaded', async function() {
           <div class="legend-item"><div class="legend-color booked"></div><span>Booked</span></div>
         </div>
       `;
+
       const grid = container.querySelector('.cal-grid');
-      const firstDay = new Date(year, month, 1).getDay();
+      const firstDayWeekday = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
-      for (let i = 0; i < firstDay; i++) {
+
+      // Add empty cells for days before month starts
+      for (let i = 0; i < firstDayWeekday; i++) {
         grid.insertAdjacentHTML('beforeend', '<div class="cal-day"></div>');
       }
+
+      // Render each day of the month
       for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, month, day);
-        const dateStr = date.toISOString().split('T')[0];
-        const isToday = date.getTime() === today.getTime();
-        const isPast = date < today;
-        const booked = isBooked(dateStr); // Now uses dynamic bookedDates from XML
+        const dateObj = new Date(year, month, day);
+        const dateStr = dateObj.toISOString().split('T')[0]; // Safe YYYY-MM-DD format
+        const isToday = dateObj.getTime() === today.getTime();
+        const isPast = dateObj < today;
+        const booked = isBooked(dateStr);
+
         const dayEl = document.createElement('div');
         dayEl.className = 'cal-day';
         dayEl.textContent = day;
-        if (isPast) dayEl.classList.add('past');
-        else if (booked) dayEl.classList.add('booked');
-        else dayEl.classList.add('available');
-        if (isToday) dayEl.classList.add('today');
+
+        if (isPast) {
+          dayEl.classList.add('past');
+        } else if (booked) {
+          dayEl.classList.add('booked');
+          dayEl.title = 'This date is already booked';
+        } else {
+          dayEl.classList.add('available');
+        }
+
+        if (isToday) {
+          dayEl.classList.add('today');
+        }
+
+        // Make clickable only if available and not past
         if (!isPast && !booked) {
+          dayEl.style.cursor = 'pointer';
           dayEl.addEventListener('click', () => {
             hiddenInput.value = dateStr;
-            displayInput.value = date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-            container.classList.remove('show'); // Hide only after selecting a date
-            container.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
+            displayInput.value = dateObj.toLocaleDateString('en-US', {
+              weekday: 'short',
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            });
+            container.classList.remove('show');
+
+            // Remove previous selection highlight
+            container.querySelectorAll('.cal-day.selected').forEach(el => el.classList.remove('selected'));
             dayEl.classList.add('selected');
-            // Optional: Refresh booked dates after selection to check for conflicts
-            loadBookedDates().then(() => generateCalendar()); // Re-generate to reflect any changes
           });
         }
+
         grid.appendChild(dayEl);
       }
-      // Navigation buttons - clicking them does NOT close the calendar
-      document.getElementById(`prev${containerId}`).addEventListener('click', (e) => {
+
+      // Navigation buttons
+      document.getElementById(`prev${containerId}`).onclick = (e) => {
         e.stopPropagation();
         currentMonth.setMonth(currentMonth.getMonth() - 1);
-        generateCalendar();
-      });
-      document.getElementById(`next${containerId}`).addEventListener('click', (e) => {
+        renderCalendar();
+      };
+
+      document.getElementById(`next${containerId}`).onclick = (e) => {
         e.stopPropagation();
         currentMonth.setMonth(currentMonth.getMonth() + 1);
-        generateCalendar();
-      });
+        renderCalendar();
+      };
     }
-    generateCalendar();
-    // Open calendar on input click
-    displayInput.addEventListener('click', (e) => {
+
+    // Open calendar: refresh data and show
+    displayInput.addEventListener('click', async (e) => {
       e.stopPropagation();
+      // Close any other open calendars
       document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
-      container.classList.add('show'); // Force open this one
+      await renderCalendar(); // Fresh data every time
+      container.classList.add('show');
     });
-    // Prevent calendar from closing when clicking inside it
-    container.addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
+
+    // Prevent calendar from closing when clicking inside
+    container.addEventListener('click', e => e.stopPropagation());
+
+    // Initial hidden render
+    renderCalendar();
   }
+
+  // Initialize both calendars
   createCalendar('fromCalendar', 'fromDateDisplay', 'fromDate');
   createCalendar('toCalendar', 'toDateDisplay', 'toDate');
-  // Only close calendars when clicking outside (not inside calendar or input)
+
+  // Close all calendars when clicking outside
   document.addEventListener('click', () => {
     document.querySelectorAll('.date-calendar').forEach(c => c.classList.remove('show'));
   });
 
-  // For date range: If toDate is set, validate that range doesn't include booked dates (basic check)
-  document.getElementById('toDate').addEventListener('change', () => {
-    const from = new Date(document.getElementById('fromDate').value);
-    const to = new Date(document.getElementById('toDate').value);
-    if (from && to && to < from) {
-      alert('End date must be after start date.');
+  // Multi-day range validation: prevent selecting range with booked dates
+  document.getElementById('toDate').addEventListener('change', async () => {
+    const fromStr = document.getElementById('fromDate').value;
+    const toStr = document.getElementById('toDate').value;
+
+    if (!fromStr || !toStr) return;
+
+    const from = new Date(fromStr);
+    const to = new Date(toStr);
+
+    if (to < from) {
+      alert('End date cannot be before the start date.');
       document.getElementById('toDate').value = '';
+      document.getElementById('toDateDisplay').value = '';
+      return;
     }
-    // Check for booked dates in range (for multi-day)
-    let hasBooked = false;
-    for (let d = new Date(from); d <= to; d.setDate(d.getDate() + 1)) {
-      const dateStr = d.toISOString().split('T')[0];
-      if (isBooked(dateStr)) {
-        hasBooked = true;
-        break;
+
+    await loadBookedDates(); // Ensure latest data
+
+    let current = new Date(from);
+    while (current <= to) {
+      const checkStr = current.toISOString().split('T')[0];
+      if (isBooked(checkStr)) {
+        alert(`Sorry, ${checkStr} within your selected range is already booked. Please choose different dates.`);
+        document.getElementById('toDate').value = '';
+        document.getElementById('toDateDisplay').value = '';
+        return;
       }
-    }
-    if (hasBooked) {
-      alert('Selected date range includes booked dates. Please choose another range.');
-      // Optionally clear or adjust
+      current.setDate(current.getDate() + 1);
     }
   });
 });
