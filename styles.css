@@ -1080,7 +1080,7 @@ select#ratePlan, select#type{
   }
   .date-calendar {
     position: fixed; /* Better on mobile: center full-width */
-    top: 20%;
+    top: 30%;
     width: 90vw;
     left: 50%;
     max-width: 320px;
