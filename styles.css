@@ -811,7 +811,7 @@ section[id]{
   text-decoration:underline;
 }
 
-
+/* BOOKING + CONTACT */
 .formGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -1079,12 +1079,51 @@ select#ratePlan, select#type{
     gap: 16px;
   }
   .date-calendar {
-    width: 95vw;
+    position: fixed; /* Better on mobile: center full-width */
+    top: 50%;
+    width: 90vw;
     left: 50%;
-    transform: translateX(-50%) translateY(-20px) scale(0.95);
+    max-width: 320px;
+    padding: 24px;
+    transform: translate(-50%, -50%) scale(0.95);
   }
   .date-calendar.show {
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  /* Dim background for better focus on mobile */
+  .date-calendar.show ~ body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: -1;
+  }
+  
+  /* Additional stylish touches */
+  .cal-day.booked::after {
+    content: 'X';
+    position: absolute;
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .cal-day.available::after{
+    content: '✓';
+    position: absolute;
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0.8;
   }
   .cal-header h4 {
     font-size: 14px;
@@ -1095,6 +1134,7 @@ select#ratePlan, select#type{
   }
   .cal-day {
     font-size: 12px;
+    position: relative;
   }
   .legend {
     gap: 10px;
