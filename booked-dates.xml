@@ -2,8 +2,8 @@
 <bookedDates>
   <date>2025-12-26</date>
   <date>2025-12-27</date>
+  <date>2025-12-29</date>
   <date>2025-12-30</date>
-  <date>2025-12-31</date>
 
 </bookedDates>
 <!-- Add more <date>YYYY-MM-DD</date> tags as bookings are confirmed -->
