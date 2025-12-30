@@ -581,3 +581,315 @@ document.addEventListener('DOMContentLoaded', async () => {
     setTimeDiff(tz);
   }, 60 * 1000);
 })();
+
+// ================================================================
+// ====== ROBOTIC SIDE MENUBAR MODULE (New Lift Style) ============
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // 1. SELECTORS & SAFETY CHECKS
+  // We check if elements exist to prevent errors if HTML is missing
+  const roboDock = document.getElementById('roboDock');
+  if (!roboDock) return; // Exit if the robotic menu HTML isn't found
+
+  const topProgress = document.getElementById('roboTopProgress');
+  const ringCircle = document.querySelector('.progress-ring__circle');
+  const roboLinks = document.querySelectorAll('.robo-link');
+  const sections = document.querySelectorAll('section');
+  const mobileToggle = document.getElementById('roboToggle');
+  const homeSection = document.getElementById('home');
+
+  // 2. SETUP CIRCULAR PROGRESS RING
+  let circumference = 0;
+  if (ringCircle) {
+    const radius = ringCircle.r.baseVal.value;
+    circumference = radius * 2 * Math.PI;
+    ringCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+    ringCircle.style.strokeDashoffset = circumference;
+  }
+
+  // 3. HELPER: DETECT MOBILE
+  const isMobile = () => window.innerWidth <= 768;
+
+  // 4. MAIN SCROLL LOGIC
+  function handleRoboticScroll() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (docHeight > 0) ? (scrollTop / docHeight) : 0;
+
+    // --- A. VISIBILITY TOGGLE (Hide on Home, Show after) ---
+    if (homeSection) {
+      const heroHeight = homeSection.offsetHeight;
+      // Show dock only if user has scrolled past 30% of the Hero section
+      if (scrollTop > (heroHeight * 0.3)) {
+        roboDock.classList.add('visible');
+      } else {
+        roboDock.classList.remove('visible');
+        // Automatically close mobile menu if user scrolls back to very top
+        if (roboDock.classList.contains('mobile-open')) {
+          toggleMobileMenu(false);
+        }
+      }
+    }
+
+    // --- B. TOP NEON PROGRESS BAR ---
+    if (topProgress) {
+      topProgress.style.width = `${scrollPercent * 100}%`;
+    }
+
+    // --- C. BACK-TO-TOP RING PROGRESS ---
+    if (ringCircle) {
+      const offset = circumference - (scrollPercent * circumference);
+      ringCircle.style.strokeDashoffset = offset;
+    }
+
+    // --- D. ACTIVE SECTION HIGHLIGHTING (The "Laser Beacon" Effect) ---
+    let currentSectionId = '';
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      // We add a -150px offset so the highlight triggers slightly before the section hits the very top
+      if (scrollTop >= (sectionTop - 150)) {
+        currentSectionId = section.getAttribute('id');
+      }
+    });
+
+    roboLinks.forEach(link => {
+      link.classList.remove('active');
+      // If the link matches the current section, make it "Active"
+      // CSS handles the transformation to diamond shape + laser beam
+      if (link.getAttribute('data-section') === currentSectionId) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // 5. MOBILE TOGGLE FUNCTIONALITY
+  function toggleMobileMenu(forceState) {
+    if (typeof forceState === 'boolean') {
+      roboDock.classList.toggle('mobile-open', forceState);
+    } else {
+      roboDock.classList.toggle('mobile-open');
+    }
+
+    // Toggle the Icon between "Bars" and "X"
+    if (mobileToggle) {
+      const icon = mobileToggle.querySelector('i');
+      if (icon) {
+        if (roboDock.classList.contains('mobile-open')) {
+          icon.classList.remove('fa-bars-staggered');
+          icon.classList.add('fa-xmark');
+        } else {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars-staggered');
+        }
+      }
+    }
+  }
+
+  // Event Listener for the Mobile Toggle Button
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent document click from immediately closing it
+      toggleMobileMenu();
+    });
+  }
+
+  // 6. LINK CLICK BEHAVIOR
+  roboLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      // On mobile, clicking a link should close the menu
+      if (isMobile()) {
+        toggleMobileMenu(false);
+      }
+    });
+  });
+
+  // 7. INITIALIZE
+  window.addEventListener('scroll', handleRoboticScroll);
+  // Run once on load in case page is refreshed halfway down
+  handleRoboticScroll();
+
+  // Close mobile menu if clicking outside
+  document.addEventListener('click', (e) => {
+    if (roboDock.classList.contains('mobile-open') && !roboDock.contains(e.target)) {
+      toggleMobileMenu(false);
+    }
+  });
+
+});
+
+// ================================================================
+// ====== INTELLIGENT CALCULATOR & VALIDATION LOGIC ===============
+// ================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Selectors
+    const rateSelect = document.getElementById('ratePlan');
+    const fromInput = document.getElementById('fromDate');
+    const toInput = document.getElementById('toDate');
+    const toWrapper = document.getElementById('toDateWrapper');
+    const toDisplay = document.getElementById('toDateDisplay');
+    
+    // Calculator UI Selectors
+    const uiRate = document.getElementById('calcRate');
+    const uiDuration = document.getElementById('calcDuration');
+    const uiTotal = document.getElementById('calcTotal');
+    const uiNote = document.getElementById('calcNote');
+
+    // 1. STATE MANAGEMENT
+    function updateFormState() {
+        const selectedOption = rateSelect.value;
+        const isMultiDay = selectedOption.includes('Multi‑Day');
+
+        // Toggle Till Date Field
+        if (isMultiDay) {
+            toWrapper.classList.remove('disabled');
+            toDisplay.removeAttribute('disabled');
+            if(toDisplay.placeholder.includes('Select Start')) {
+               toDisplay.placeholder = "Select End Date";
+            }
+        } else {
+            toWrapper.classList.add('disabled');
+            toDisplay.setAttribute('disabled', 'true');
+            // Clear To Date if switching away from multi-day
+            toInput.value = ''; 
+            toDisplay.value = '';
+            toDisplay.placeholder = "Multi-day plan required";
+        }
+
+        calculateTotal();
+    }
+
+    // 2. PARSE PRICE HELPER
+    function getPriceFromOption(optionValue) {
+        if (!optionValue) return 0;
+        if (optionValue.includes('by discussion')) return -1; // Special flag for custom
+
+        // Regex to extract number after ₹ (e.g., "Item • ₹1,200" -> 1200)
+        const match = optionValue.match(/₹([\d,]+)/);
+        if (match && match[1]) {
+            return parseInt(match[1].replace(/,/g, ''), 10);
+        }
+        return 0;
+    }
+
+    // 3. CALCULATION ENGINE
+    function calculateTotal() {
+        const planValue = rateSelect.value;
+        const pricePerUnit = getPriceFromOption(planValue);
+        const startStr = fromInput.value;
+        const endStr = toInput.value;
+        const isMultiDay = planValue.includes('Multi‑Day');
+
+        let totalCost = 0;
+        let durationText = "--";
+        let noteText = "";
+
+        // Case A: No Plan Selected
+        if (!planValue) {
+            uiRate.textContent = "₹0";
+            uiDuration.textContent = "--";
+            uiTotal.textContent = "0";
+            uiNote.textContent = "Please select a plan first";
+            return;
+        }
+
+        // Case B: Custom Plan
+        if (pricePerUnit === -1) {
+            uiRate.textContent = "Custom";
+            uiDuration.textContent = "Flexible";
+            uiTotal.textContent = "---";
+            uiNote.textContent = "Price decided via discussion based on requirements";
+            document.querySelector('.currency').style.display = 'none'; // Hide ₹
+            return;
+        } else {
+            document.querySelector('.currency').style.display = 'inline'; // Show ₹
+            uiRate.textContent = `₹${pricePerUnit.toLocaleString('en-IN')}`;
+        }
+
+        // Case C: Standard Single Day (Half/Full/Evening/Transfer)
+        if (!isMultiDay) {
+            durationText = "1 Day / Trip";
+            totalCost = pricePerUnit;
+            noteText = "Fixed price for the selected service";
+            
+            // Render
+            uiDuration.textContent = durationText;
+            updateTotalUI(totalCost);
+            uiNote.textContent = noteText;
+        } 
+        
+        // Case D: Multi-Day Logic
+        else {
+            if (!startStr) {
+                uiDuration.textContent = "--";
+                uiTotal.textContent = "0";
+                uiNote.textContent = "Select Start Date";
+                return;
+            }
+
+            if (!endStr) {
+                uiDuration.textContent = "Pending End Date";
+                uiTotal.textContent = "0";
+                uiNote.textContent = "Select End Date to see total";
+                return;
+            }
+
+            // Calculate Date Difference
+            const d1 = new Date(startStr);
+            const d2 = new Date(endStr);
+            
+            // Time difference in milliseconds
+            const timeDiff = d2.getTime() - d1.getTime();
+            // Days difference (Add 1 to include the start day)
+            const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+
+            if (daysDiff <= 0) {
+                uiDuration.textContent = "Invalid Dates";
+                uiTotal.textContent = "0";
+                uiNote.textContent = "End date cannot be before start date";
+                return;
+            }
+
+            durationText = `${daysDiff} Days`;
+            totalCost = pricePerUnit * daysDiff;
+            noteText = `${daysDiff} days × ₹${pricePerUnit}`;
+
+            uiDuration.textContent = durationText;
+            updateTotalUI(totalCost);
+            uiNote.textContent = noteText;
+        }
+    }
+
+    // 4. UI ANIMATION HELPER
+    function updateTotalUI(amount) {
+        const currentVal = parseInt(uiTotal.innerText.replace(/,/g,'')) || 0;
+        uiTotal.textContent = amount.toLocaleString('en-IN');
+        
+        // Trigger Pop Animation if value changed
+        if (currentVal !== amount) {
+            uiTotal.classList.remove('pop-anim');
+            void uiTotal.offsetWidth; // Trigger Reflow
+            uiTotal.classList.add('pop-anim');
+        }
+    }
+
+    // 5. LISTENERS
+    
+    // Watch for Plan Changes
+    rateSelect.addEventListener('change', updateFormState);
+
+    // Watch for Date Changes (MutationObserver is needed because your calendar sets the hidden input value programmatically, not via user typing)
+    const dateObserver = new MutationObserver(() => {
+        calculateTotal();
+    });
+
+    dateObserver.observe(fromInput, { attributes: true, attributeFilter: ['value'] });
+    dateObserver.observe(toInput, { attributes: true, attributeFilter: ['value'] });
+
+    // Initialize
+    updateFormState();
+});
+
