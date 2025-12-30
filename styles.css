@@ -1464,3 +1464,455 @@ footer::before{
   .socialIcon { width: 44px; height: 44px; }
   .socialIcon svg { width: 24px; height: 24px; }
 }
+
+/* --- CALCULATOR WIDGET STYLES --- */
+.calc-widget {
+  grid-column: 1 / -1;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  perspective: 1000px;
+}
+
+.calc-glass {
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.calc-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #0066ff, #00f3ff);
+  box-shadow: 0 0 10px #00f3ff;
+}
+
+.calc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #00f3ff;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+
+.calc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.c-value {
+  font-weight: 600;
+  color: #a3a2a2;
+}
+
+.calc-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 5px 0;
+}
+
+.calc-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.total-label {
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.total-amount-wrap {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+}
+
+.currency {
+  font-size: 16px;
+  margin-right: 4px;
+  color: #00f3ff;
+}
+
+.total-amount {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Ubuntu', sans-serif;
+  line-height: 1;
+}
+
+.calc-note {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: right;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* Animation for Price Change */
+@keyframes pricePop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); color: #00f3ff; }
+  100% { transform: scale(1); }
+}
+
+.pop-anim {
+  animation: pricePop 0.3s ease-out;
+}
+
+/* --- DISABLED FIELD STYLING --- */
+.disabled-field {
+  opacity: 0.5;
+  pointer-events: none; /* Prevents clicking */
+  filter: grayscale(100%);
+  position: relative;
+}
+
+.disabled-field input {
+  background-color: rgba(0,0,0,0.2) !important;
+  cursor: not-allowed;
+}
+
+/* ToDate Wrapper Logic */
+#toDateWrapper {
+  transition: opacity 0.3s ease;
+}
+
+#toDateWrapper.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* --- ROBOTIC NAVIGATION SYSTEM CSS --- */
+
+:root {
+  --neon-cyan: #00f3ff;
+  --neon-blue: #0066ff;
+  --glass-bg: rgba(2, 6, 23, 0.85);
+  --robo-border: 1px solid rgba(0, 243, 255, 0.3);
+  --trans-speed: 0.4s;
+}
+
+/* 1. Top Progress Bar */
+.robo-top-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan), white);
+  width: 0%; /* JS updates this */
+  z-index: 9999;
+  box-shadow: 0 0 10px var(--neon-cyan);
+  transition: width 0.1s linear;
+}
+
+/* 2. Dock Container */
+.robo-dock {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%) translateX(100px); /* Hidden initially */
+  z-index: 9990;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Robotic Bounce */
+}
+
+.robo-dock.visible {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* The Track (Line behind items - optional aesthetic) */
+.robo-menu-track {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  padding: 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 30px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Menu Items */
+.robo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.robo-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.robo-link {
+  width: 40px;
+  height: 40px;
+  background: var(--glass-bg);
+  border: var(--robo-border);
+  border-radius: 12px; /* Robotic Squircle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.robo-link i {
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover State */
+.robo-link:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+  transform: scale(1.1);
+}
+
+/* ACTIVE STATE (The "Hide Link / Beacon" Strategy) */
+.robo-link.active {
+  background: var(--neon-cyan);
+  color: #000;
+  border-color: white;
+  pointer-events: none; /* Disables click */
+  transform: scale(1.15) rotate(45deg); /* Diamond shape */
+  box-shadow: 0 0 20px var(--neon-cyan);
+}
+.robo-link.active i {
+  transform: rotate(-45deg); /* Correct icon rotation */
+  font-weight: 800;
+}
+
+/* TOOLTIPS (Holographic Labels) */
+.robo-tooltip {
+  position: absolute;
+  right: 55px;
+  background: rgba(2, 6, 23, 0.95);
+  border: 1px solid var(--neon-cyan);
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--neon-cyan);
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+  text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+/* Show tooltip on hover or active */
+.robo-link:hover .robo-tooltip,
+.robo-link.active .robo-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* LASER BEAM (The Connection Animation) */
+.laser-beam {
+  position: absolute;
+  top: 50%;
+  right: -20px; /* Connects tooltip to icon */
+  width: 20px;
+  height: 2px;
+  background: var(--neon-cyan);
+  opacity: 0;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.2s, transform 0.3s ease;
+}
+
+/* Show laser only on Active state */
+.robo-link.active .robo-tooltip .laser-beam {
+  opacity: 1;
+  transform: translateY(-50%) scaleX(1);
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* Laser Sweep Animation */
+.robo-link.active .robo-tooltip .laser-beam::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 5px;
+  height: 6px;
+  background: white;
+  filter: blur(2px);
+  animation: laserSweep 1.5s infinite linear;
+}
+
+@keyframes laserSweep {
+  0% { left: 0; opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* 3. Back To Top CORE + Ring */
+.robo-core {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.8);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.robo-core:hover {
+  transform: scale(1.1);
+}
+
+.core-icon {
+  position: absolute;
+  color: var(--neon-cyan);
+  font-size: 18px;
+  animation: bounceUp 2s infinite;
+}
+
+@keyframes bounceUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Progress Ring SVG */
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.1s linear;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke: var(--neon-cyan);
+  stroke-dasharray: 126; /* 2 * PI * r(20) ~ 125.6 */
+  stroke-dashoffset: 126;
+  stroke-linecap: round;
+}
+
+/* Neon Pulse Effect on Ring */
+.core-ripple {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid var(--neon-cyan);
+  opacity: 0;
+  animation: ripple 2s infinite ease-out;
+}
+
+@keyframes ripple {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* MOBILE TOGGLE (Hidden on Desktop) */
+.robo-mobile-toggle {
+  display: none;
+  width: 45px;
+  height: 45px;
+  background: var(--neon-blue);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 0 15px var(--neon-blue);
+  cursor: pointer;
+  z-index: 10001;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 900px) {
+  /* Tooltips hide on tablet to save space, only show on active */
+  .robo-tooltip { display: none; }
+  .robo-link.active .robo-tooltip { display: block; right: 50px; }
+}
+
+@media (max-width: 768px) {
+  .robo-dock {
+    right: 15px;
+    bottom: 30px;
+    top: auto;
+    transform: translateY(100px); /* Hide below */
+  }
+  
+  .robo-dock.visible {
+    transform: translateY(0);
+  }
+
+  /* Hide the full track initially on mobile */
+  .robo-menu-track {
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: all 0.4s ease;
+  }
+
+  /* Show track when "Open" */
+  .robo-dock.mobile-open .robo-menu-track {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .robo-mobile-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Hide the CORE button inside track on mobile, use toggle as back-to-top logic or separate */
+  .robo-core {
+    display: none; /* On mobile, the track is just for navigation */
+  }
+}
