@@ -817,139 +817,177 @@
 
     <!-- BOOKING -->
     <section id="booking" class="block">
-      <div class="sectionHead">
-        <div>
-          <h2 class="h2" data-t>BOOKING</h2>
-          <p class="hint" data-t>
-            Transparent & affordable private guiding—share a few details and receive a clear quote on WhatsApp before you confirm anything.
-          </p>
-        </div>
+  <div class="sectionHead">
+    <div>
+      <h2 class="h2" data-t>BOOKING</h2>
+      <p class="hint" data-t>
+        Transparent & affordable private guiding—receive a clear quote before you confirm.
+      </p>
+    </div>
+  </div>
+
+  <div class="card reveal" style="margin-bottom:14px;">
+    <div class="rectInner" style="padding:0;">
+      <div class="miniTitle" data-t>Transparent & Affordable Rates</div>
+      <div class="bigLine" style="margin-top:6px; flex-wrap:wrap;">
+        <span class="chip" data-t>Half Day (4–5 hours): ₹1,200</span>
+        <span class="chip" data-t>Full Day (8–10 hours): ₹2,500</span>
+        <span class="chip" data-t>Evening Tour (4–5 hours): ₹1,500</span>
+        <span class="chip" data-t>Airport Transfer + Assistance: ₹2,000</span>
+        <span class="chip" data-t>Multi‑Day Companion: ₹2,300 per day</span>
+        <span class="chip" data-t>Custom / Taj Mahal Trip: by discussion</span>
       </div>
-      <!-- TRANSPARENT RATE -->
-      <div class="card reveal" style="margin-bottom:14px;">
-        <div class="rectInner" style="padding:0;">
-          <div class="miniTitle" data-t>Transparent & Affordable Rates</div>
-          <div class="bigLine" style="margin-top:6px; flex-wrap:wrap;">
-            <span class="chip" data-t>Quarter (1-2 hours) : ₹1,000 - ₹1,200</span>
-            <span class="chip" data-t>Half Day (4–5 hours): ₹1,800 – ₹2,500</span>
-            <span class="chip" data-t>Full Day (8–10 hours): ₹3,000 – ₹4,500</span>
-            <span class="chip" data-t>Evening Tour (4–5 hours): ₹3,000</span>
-            <span class="chip" data-t>Airport Transfer + Assistance: from ₹1,800</span>
-            <span class="chip" data-t>Multi‑Day Companion: from ₹3,300 per day</span>
-            <span class="chip" data-t>Custom / Taj Mahal Trip: by discussion</span>
-          </div>
-          <div class="miniTitle" style="margin-top:6px;" data-t>
-            Final cost depends on exact hours, distance, and your custom plan. All ticket, transport, food & hotel costs are always charged as per actuals.
-          </div>
-        </div>
+      <div class="miniTitle" style="margin-top:6px;" data-t>
+        Final cost depends on exact hours & plan. Tickets & food charged as per actuals.
       </div>
-      <div class="card reveal">
-        <div class="formGrid">
-          <div class="field">
-            <label data-t>Your Name</label>
-            <input id="name" placeholder="Full name as per passport / ID" />
-          </div>
-          <div class="field">
-            <label data-t>Contact (WhatsApp / Email)</label>
-            <input id="contactField" placeholder="+91… (preferred) or your email" />
-          </div>
-          <!-- Date Pickers -->
-          <div class="date-picker-wrapper">
-            <div class="date-field">
-              <label data-t>Arrival / Start Date</label>
-              <input type="text" class="date-input" id="fromDateDisplay" readonly placeholder="Choose start date" />
-              <input type="hidden" id="fromDate" />
-              <div class="date-calendar" id="fromCalendar"></div>
-            </div>
-            <div class="date-field">
-              <label data-t>Till Date (For Multi-day)</label>
-              <input type="text" class="date-input" id="toDateDisplay" readonly placeholder="Choose end date" />
-              <input type="hidden" id="toDate" />
-              <div class="date-calendar" id="toCalendar"></div>
-            </div>
-          </div>
-          <div class="availability-note">
-            Click on the date fields to view availability • Green = Available • Red = Booked
-          </div>
-          <div class="field">
-            <label data-t>Preferred Time</label>
-            <input id="time" type="time" placeholder="--:--" />
-          </div>
-          <div class="field">
-            <label data-t>Tour Duration (Rate List)</label>
-            <select id="ratePlan">
-              <option value="Quarter (1-2 hours) • ₹1,000 – ₹1,200">Quarter (1-2 Hours) – ₹1,000 – ₹1,200</option>
-              <option value="Half Day (4–5 hours) • ₹1,800 – ₹2,500">Half Day (4–5 Hours) – ₹1,800 – ₹2,500</option>
-              <option value="Full Day (8–10 hours) • ₹3,000 – ₹4,500">Full Day (8–10 Hours) – ₹3,000 – ₹4,500</option>
-              <option value="Evening Tour (4–5 hours) • ₹3,000">Evening Tour (4–5 Hours) – ₹3,000</option>
-              <option value="Airport Transfer + Assistance • from ₹1,800">Airport Transfer + Assistance – ₹1,800</option>
-              <option value="Multi‑Day Companion • from ₹3,300 per day">Multi‑Day Companion – from ₹3,300 / day</option>
-              <option value="Custom / Taj Mahal Trip • by discussion">Custom / Taj Mahal Trip – by discussion</option>
-            </select>
-          </div>
-          <div class="field">
-            <label data-t>Travel Type / Group Size</label>
-            <select id="type">
-              <option readonly placeholder="Select Type/Group">Select Type/Group</option>
-              <option>Solo</option>
-              <option>Single</option>
-              <option>Couple</option>
-              <option>Family with kids</option>
-              <option>Friends group</option>
-              <option>Business / Work trip</option>
-            </select>
-          </div>
-          <div class="field">
-            <label data-t>Visit Reason</label>
-            <select id="visitReason">
-              <option readonly placeholder="Select Reason">Select Reason</option>
-              <option>Explore the cities or places</option>
-              <option>As a tourist</option>
-              <option>Explore culture</option>
-              <option>Special meeting</option>
-              <option>Business trip</option>
-              <option>Religious places</option>
-              <option>Romantic places</option>
-              <option>Romantic meet‑up</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="field">
-            <label data-t>Age</label>
-            <input id="age" type="number" min="18" max="100" placeholder="Your age" />
-          </div>
-          <div class="field">
-            <label data-t>Country</label>
-            <input id="countryField" placeholder="Your country" />
-          </div>
-          <div class="field">
-            <label data-t>City</label>
-            <input id="cityField" placeholder="Your city" />
-          </div>
-          <div class="field" style="grid-column:1 / -1;">
-            <label data-t>Upload Government ID + Passport Copy (optional)</label>
-            <input id="idUpload" type="file" multiple />
-            <span class="miniTitle" data-t>
-              You can also send your ID and passport copy later directly on WhatsApp or email if you prefer.
-            </span>
-          </div>
-          <div class="field" style="grid-column: 1 / -1;">
-            <label data-t>Your Interests / Message / What do you want this day to feel like?</label>
-            <textarea id="msg" placeholder="Example: peaceful temples in the morning, local veg food, Old Delhi walk, some shopping, sunset photos at a monument, back to hotel by 9pm."></textarea>
-          </div>
-        </div>
-        <div class="formActions">
-          <button class="btn btnPrimary" id="bookingBtn" data-t>Send Details on WhatsApp</button>
-          <button class="btn btnGhost" id="emailBtn" data-t>Send Details by Email</button>
-          <a class="btn btnGhost" id="rateCardBtn" href="assets/atithi-devo-bhavah-rate-card.pdf" target="_blank" rel="noopener" data-t>View Detailed Rate Card (PDF)</a>
-          <button class="btn btnGhost" id="translateBtn" data-t>Auto-Translate Page</button>
-          <span class="miniTitle" id="translateState">—</span>
-          <span class="miniTitle" style="color:rgba(148,163,184,.86);" data-t>
-            Sending this form does not lock you into anything. You will always see the plan and total estimate before confirming.
-          </span>
-        </div>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="formGrid">
+  <div class="field">
+    <label data-t>Your Name</label>
+    <input id="name" placeholder="Full name as per passport / ID" />
+  </div>
+  <div class="field">
+    <label data-t>Contact (WhatsApp / Email)</label>
+    <input id="contactField" placeholder="+91… (preferred) or your email" />
+  </div>
+
+  <div class="field">
+    <label data-t>Tour Duration (Rate List)</label>
+    <select id="ratePlan">
+      <option value="" selected disabled>Select a Plan...</option>
+      <option value="Half Day (4–5 hours) • ₹1,200">Half Day (4–5 Hours) – ₹1,200</option>
+      <option value="Full Day (8–10 hours) • ₹2,500">Full Day (8–10 Hours) – ₹2,500</option>
+      <option value="Evening Tour (4–5 hours) • ₹1,500">Evening Tour (4–5 Hours) – ₹1,500</option>
+      <option value="Airport Transfer + Assistance • ₹2,000">Airport Transfer + Assistance – ₹2,000</option>
+      <option value="Multi‑Day Companion • ₹2,300 per day">Multi‑Day Companion – ₹2,300 / day</option>
+      <option value="Custom / Taj Mahal Trip • by discussion">Custom / Taj Mahal Trip – by discussion</option>
+    </select>
+  </div>
+
+  <div class="calc-widget reveal" id="calculatorWidget">
+    <div class="calc-glass">
+      <div class="calc-header">
+        <i class="fa-solid fa-calculator"></i>
+        <span data-t>TRIP ESTIMATE</span>
       </div>
-    </section>
+      
+      <div class="calc-body">
+        <div class="calc-row">
+          <span class="c-label" data-t>Plan Rate</span>
+          <span class="c-value" id="calcRate">₹0</span>
+        </div>
+        <div class="calc-row">
+          <span class="c-label" data-t>Duration</span>
+          <span class="c-value" id="calcDuration">--</span>
+        </div>
+        <div class="calc-divider"></div>
+        <div class="calc-total-row">
+          <span class="total-label" data-t>ESTIMATED TOTAL</span>
+          <div class="total-amount-wrap">
+            <span class="currency">₹</span>
+            <span class="total-amount" id="calcTotal">0</span>
+          </div>
+        </div>
+        <div class="calc-note" id="calcNote" data-t>Select a plan and dates to see estimate</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="date-picker-wrapper">
+    <div class="date-field">
+      <label data-t>Arrival / Start Date</label>
+      <input type="text" class="date-input" id="fromDateDisplay" readonly placeholder="Select Date" />
+      <input type="hidden" id="fromDate" />
+      <div class="date-calendar" id="fromCalendar"></div>
+    </div>
+    
+    <div class="date-field" id="toDateWrapper" class="disabled-field">
+      <label data-t>Till Date (Multi-day Only)</label>
+      <input type="text" class="date-input" id="toDateDisplay" readonly placeholder="Select Start Date First" disabled />
+      <input type="hidden" id="toDate" />
+      <div class="date-calendar" id="toCalendar"></div>
+    </div>
+  </div>
+  
+  <div class="availability-note" style="margin-top: -10px; margin-bottom: 10px;">
+    Click fields to check availability. "Till Date" unlocks only for <b>Multi-Day</b> plans.
+  </div>
+
+  <div class="field">
+    <label data-t>Preferred Time</label>
+    <input id="time" type="time" />
+  </div>
+  
+  <div class="field">
+    <label data-t>Travel Type / Group Size</label>
+    <select id="type">
+      <option readonly placeholder="Select Type/Group">Select Type/Group</option>
+      <option>Solo</option>
+      <option>Single</option>
+      <option>Couple</option>
+      <option>Family with kids</option>
+      <option>Friends group</option>
+      <option>Business / Work trip</option>
+    </select>
+  </div>
+  
+  <div class="field">
+    <label data-t>Visit Reason</label>
+    <select id="visitReason">
+      <option readonly placeholder="Select Reason">Select Reason</option>
+      <option>Explore the cities or places</option>
+      <option>As a tourist</option>
+      <option>Explore culture</option>
+      <option>Special meeting</option>
+      <option>Business trip</option>
+      <option>Religious places</option>
+      <option>Romantic places</option>
+      <option>Romantic meet‑up</option>
+      <option>Other</option>
+    </select>
+  </div>
+  
+  <div class="field">
+    <label data-t>Age</label>
+    <input id="age" type="number" min="18" max="100" placeholder="Age" />
+  </div>
+  
+  <div class="field">
+    <label data-t>Country</label>
+    <input id="countryField" placeholder="Your country" />
+  </div>
+  
+  <div class="field">
+    <label data-t>City</label>
+    <input id="cityField" placeholder="Your city" />
+  </div>
+
+  <div class="field" style="grid-column:1 / -1;">
+    <label data-t>Upload Government ID + Passport Copy (optional)</label>
+    <input id="idUpload" type="file" multiple />
+    <span class="miniTitle" data-t>
+      You can also send your ID and passport copy later directly on WhatsApp or email.
+    </span>
+  </div>
+  
+  <div class="field" style="grid-column: 1 / -1;">
+    <label data-t>Your Interests / Message</label>
+    <textarea id="msg" placeholder="Tell me about your specific needs..."></textarea>
+  </div>
+</div>
+
+<div class="formActions">
+  <button class="btn btnPrimary" id="bookingBtn" data-t>Send Details on WhatsApp</button>
+  <button class="btn btnGhost" id="emailBtn" data-t>Send Details by Email</button>
+  <a class="btn btnGhost" id="rateCardBtn" href="assets/atithi-devo-bhavah-rate-card.pdf" target="_blank" rel="noopener" data-t>View Rate Card (PDF)</a>
+  <button class="btn btnGhost" id="translateBtn" data-t>Auto-Translate Page</button>
+  <span class="miniTitle" id="translateState">—</span>
+</div>
+  </div>
+</section>
 
     <!-- CONTACT + MAP -->
     <section id="contact" class="block">
@@ -1108,7 +1146,92 @@
       </div>
     </div>
   </footer>
+  <div class="robo-top-progress" id="roboTopProgress"></div>
 
+      <nav class="robo-dock" id="roboDock">
+        <div class="robo-menu-track">
+    
+          <ul class="robo-list">
+            <li class="robo-item">
+              <a href="#home" class="robo-link" data-section="home">
+                <i class="fa-solid fa-house-chimney"></i>
+                  <span class="robo-tooltip">HOME<span class="laser-beam"></span></span>
+              </a>
+            </li>
+            <li class="robo-item">
+              <a href="#about" class="robo-link" data-section="about">
+                <i class="fa-solid fa-user-astronaut"></i>
+                  <span class="robo-tooltip">ABOUT<span class="laser-beam"></span></span>
+              </a>
+            </li>
+            <li class="robo-item">
+              <a href="#whyme" class="robo-link" data-section="whyme">
+                <i class="fa-solid fa-person-rays"></i>
+                  <span class="robo-tooltip">WHY ME<span class="laser-beam"></span></span>
+              </a>
+            </li>
+            <li class="robo-item">
+              <a href="#services" class="robo-link" data-section="services">
+                <i class="fa-solid fa-briefcase"></i>
+                  <span class="robo-tooltip">SERVICES<span class="laser-beam"></span></span>
+              </a>
+            </li>
+      <li class="robo-item">
+        <a href="#safety" class="robo-link" data-section="safety">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span class="robo-tooltip">SAFETY<span class="laser-beam"></span></span>
+        </a>
+      </li>
+      <li class="robo-item">
+        <a href="#verification" class="robo-link" data-section="verification">
+          <i class="fa-solid fa-user-shield"></i>
+          <span class="robo-tooltip">VERIFY<span class="laser-beam"></span></span>
+        </a>
+      </li>
+      <li class="robo-item">
+        <a href="#gallery" class="robo-link" data-section="gallery">
+          <i class="fa-solid fa-images"></i>
+          <span class="robo-tooltip">GALLERY<span class="laser-beam"></span></span>
+        </a>
+      </li>
+      <li class="robo-item">
+        <a href="#stories" class="robo-link" data-section="stories">
+          <i class="fa-solid fa-quote-right"></i>
+          <span class="robo-tooltip">STORIES<span class="laser-beam"></span></span>
+        </a>
+      </li>
+      <li class="robo-item">
+        <a href="#booking" class="robo-link" data-section="booking">
+          <i class="fa-solid fa-money-check-dollar"></i>
+          <span class="robo-tooltip">BOOKING<span class="laser-beam"></span></span>
+        </a>
+      </li>
+      <li class="robo-item">
+        <a href="#contact" class="robo-link" data-section="contact">
+          <i class="fa-solid fa-address-book"></i>
+          <span class="robo-tooltip">CONTACT<span class="laser-beam"></span></span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="robo-core" id="roboCore" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <svg class="progress-ring" width="50" height="50">
+        <circle class="progress-ring__circle" stroke="white" stroke-width="3" fill="transparent" r="20" cx="25" cy="25"/>
+      </svg>
+      <div class="core-icon">
+        <i class="fa-solid fa-chevron-up"></i>
+      </div>
+      <div class="core-ripple"></div>
+    </div>
+
+  </div>
+  
+  <button class="robo-mobile-toggle" id="roboToggle" aria-label="Toggle Navigation">
+    <i class="fa-solid fa-bars-staggered"></i>
+  </button>
+</nav>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
   <script src="main.js"></script>
 </body>
 </html>
